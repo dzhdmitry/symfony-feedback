@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="message")
@@ -20,16 +21,19 @@ class Message
 
     /**
      * @ORM\Column(name="author", type="string", length=255)
+     * @Assert\NotBlank(message="Author name cannot be blank")
      */
     private $author;
 
     /**
      * @ORM\Column(name="email", type="string", length=255)
+     * @Assert\NotBlank(message="Email cannot be blank")
      */
     private $email;
 
     /**
      * @ORM\Column(name="body", type="text")
+     * @Assert\NotBlank(message="Message text cannot be blank")
      */
     private $body;
 
@@ -48,6 +52,17 @@ class Message
      * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Picture", mappedBy="message", cascade={"persist"})
+     */
+    private $picture;
+
+    public function __construct()
+    {
+        $this->approved = false;
+        $this->changedByAdmin = false;
+    }
 
     /**
      * Get id
@@ -195,5 +210,28 @@ class Message
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * Set picture
+     *
+     * @param Picture $picture
+     * @return Message
+     */
+    public function setPicture(Picture $picture = null)
+    {
+        $this->picture = $picture->setMessage($this);
+
+        return $this;
+    }
+
+    /**
+     * Get picture
+     *
+     * @return Picture
+     */
+    public function getPicture()
+    {
+        return $this->picture;
     }
 }

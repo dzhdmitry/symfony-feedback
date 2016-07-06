@@ -1,17 +1,57 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
+    <div class="container">
         <h1>Content</h1>
 
-        <p>Base dir: {{ base_dir }}</p>
+        {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
+
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>
+                    {% if p.sort == "author" %}
+                        <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "author", direction: nextDirection}) }}" title="Name">Name</a>
+                    {% else %}
+                        <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="Name">Name</a>
+                    {% endif %}
+                </th>
+
+                <th>
+                    {% if p.sort == "email" %}
+                        <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "email", direction: nextDirection}) }}" title="Email">Email</a>
+                    {% else %}
+                        <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="Email">Email</a>
+                    {% endif %}
+                </th>
+
+                <th colspan="2">
+                    Text
+                </th>
+
+                <th>
+                    {% if p.sort == "createdAt" %}
+                        <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "createdAt", direction: nextDirection}) }}" title="Date added">Date added</a>
+                    {% else %}
+                        <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="Date added">Date added</a>
+                    {% endif %}
+                </th>
+            </tr>
+            </thead>
+
+            <tbody id="messages-container">
+            {% for message in messages %}
+                {% include "@App/message.html.twig" %}
+            {% else %}
+                <tr>
+                    <td colspan="5" class="bg-info text-center">
+                        No messages yet
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include "@App/messagesForm.html.twig" with {form: messageForm} %}
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    <link href="{{ asset("css/style.css") }}" rel="stylesheet">
-
-    <style>
-        /**/
-    </style>
 {% endblock %}

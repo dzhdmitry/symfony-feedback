@@ -16,7 +16,8 @@
 /vendor/
 
 /web/bundles/
-/web/uploads/
+/web/pictures/
+/web/previews/
 /web/css/
 /web/fonts/
 /web/js/

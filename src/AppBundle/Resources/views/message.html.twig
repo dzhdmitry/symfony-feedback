@@ -1,0 +1,25 @@
+<tr>
+    <td>{{ message.author }}</td>
+
+    <td>
+        <a href="mailto:{{ message.email }}">{{ message.email }}</a>
+    </td>
+
+    <td>
+        {% if message.body|length > 100 %}
+            {{ message.body|slice(0, 100) }}&hellip;
+        {% else %}
+            {{ message.body }}
+        {% endif %}
+    </td>
+
+    <td class="text-right">
+        {% if message.picture is not empty %}
+            <a href="{{ message.picture.filename }}" class="message-picture thumbnail" target="_blank">
+                <div style="background-image: url({{ message.picture.filename }});"></div>
+            </a>
+        {% endif %}
+    </td>
+
+    <td>{{ message.createdAt|date }}</td>
+</tr>

@@ -3,12 +3,16 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Feedback{% endblock %}</title>
+        <link href="{{ asset("css/style.css") }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
 
     <body>
         {% block body %}{% endblock %}
+
+        <script src="{{ asset("js/libraries.js") }}"></script>
+        <script src="{{ asset("js/script.js") }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
