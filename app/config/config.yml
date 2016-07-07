@@ -7,8 +7,9 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    pictures_dir: "%kernel.root_dir%/../web/pictures"
-    previews_dir: "%kernel.root_dir%/../web/previews"
+    public_dir: "%kernel.root_dir%/../web"
+    pictures_dir: "%public_dir%/pictures"
+    previews_dir: "%public_dir%/previews"
 
 framework:
     #esi:             ~

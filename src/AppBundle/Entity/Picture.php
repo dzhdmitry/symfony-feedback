@@ -117,4 +117,9 @@ class Picture
     {
         return $this->message;
     }
+
+    public function getAbsolutePath()
+    {
+        return __DIR__."/../../../web".$this->getFilename();
+    }
 }

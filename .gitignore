@@ -16,8 +16,10 @@
 /vendor/
 
 /web/bundles/
-/web/pictures/
-/web/previews/
+/web/pictures/*
+/web/previews/*
+!web/pictures/.gitkeep
+!web/previews/.gitkeep
 /web/css/
 /web/fonts/
 /web/js/

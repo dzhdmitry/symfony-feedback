@@ -10,3 +10,7 @@ services:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
             - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    app.picture_handler:
+        class:  AppBundle\Service\PictureHandler
+        arguments: [ "%previews_dir%", "%pictures_dir%" ]

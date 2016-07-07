@@ -26,25 +26,12 @@ class MessagesController extends Controller
     public function createAction(Request $request)
     {
         $message = new Message();
-
-        $form = $this->createForm(MessageType::class, $message, [
-            'action' => $this->generateUrl("create_message")
-        ]);
+        $form = $this->createMessageForm($message);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($picture = $message->getPicture()) {
-                /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
-                $file = $picture->getOriginalFilename();
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $directory = $this->container->getParameter('pictures_dir');
-
-                $file->move($directory, $fileName);
-
-                $picture->setFilename("/pictures/".$fileName);
-                $picture->setOriginalFilename($file->getClientOriginalName());
-            }
+            $this->get("app.picture_handler")->uploadPicture($message);
 
             $em = $this->getDoctrine()->getManager();
 
@@ -68,25 +55,12 @@ class MessagesController extends Controller
     public function previewAction(Request $request)
     {
         $message = new Message();
-
-        $form = $this->createForm(MessageType::class, $message, [
-            'action' => $this->generateUrl("create_message")
-        ]);
+        $form = $this->createMessageForm($message);
 
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($picture = $message->getPicture()) {
-                /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
-                $file = $picture->getOriginalFilename();
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $directory = $this->container->getParameter('previews_dir');
-
-                $file->move($directory, $fileName);
-
-                $picture->setFilename("/previews/".$fileName);
-                $picture->setOriginalFilename($file->getClientOriginalName());
-            }
+            $this->get("app.picture_handler")->uploadPreview($message);
 
             return [
                 'message' => $message
@@ -108,5 +82,28 @@ class MessagesController extends Controller
     public function approveAction(Request $request, $id)
     {
         //
+    }
+
+    /**
+     * Security("has_role('ROLE')")
+     * @Route("/{id}/disapprove", name="disapprove_message")
+     * @Method("PUT")
+     * @param Request $request
+     * @param $id
+     */
+    public function disapproveAction(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * @param Message $message
+     * @return \Symfony\Component\Form\Form
+     */
+    protected function createMessageForm(Message $message)
+    {
+        return $this->createForm(MessageType::class, $message, [
+            'action' => $this->generateUrl("create_message")
+        ]);
     }
 }

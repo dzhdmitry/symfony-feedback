@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+    const DEFAULT_SORT = "createdAt";
+    const DEFAULT_ORDER = "desc";
+
     /**
      * @Template
      * @Route("/", name="homepage")
@@ -50,10 +53,10 @@ class DefaultController extends Controller
      */
     protected static function getSort(Request $request)
     {
-        $sort = $request->query->get("sort", "createdAt");
-        $sorts = ["author", "email", "createdAt"];
+        $sort = $request->query->get("sort", self::DEFAULT_SORT);
+        $sorts = ["author", "email", self::DEFAULT_SORT];
 
-        return in_array($sort, $sorts, true) ? $sort : "createdAt";
+        return in_array($sort, $sorts, true) ? $sort : self::DEFAULT_SORT;
     }
 
     /**
@@ -62,9 +65,9 @@ class DefaultController extends Controller
      */
     protected static function getOrder(Request $request)
     {
-        $direction = $request->query->get("direction", "desc");
-        $directions = ["asc", "desc"];
+        $direction = $request->query->get("direction", self::DEFAULT_ORDER);
+        $directions = ["asc", self::DEFAULT_ORDER];
 
-        return in_array($direction, $directions, true) ? $direction : "desc";
+        return in_array($direction, $directions, true) ? $direction : self::DEFAULT_ORDER;
     }
 }
