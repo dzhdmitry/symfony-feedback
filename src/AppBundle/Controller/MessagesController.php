@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -62,18 +63,25 @@ class MessagesController extends Controller
         if ($form->isValid()) {
             $this->get("app.picture_handler")->uploadPreview($message);
 
-            return [
+            $success = true;
+            $html = $this->renderView("@App/Messages/preview.html.twig", [
                 'message' => $message
-            ];
+            ]);
         } else {
-            return $this->render("@App/Messages/create.html.twig", [
+            $success = false;
+            $html = $this->renderView("@App/messagesForm.html.twig", [
                 'form' => $form->createView()
             ]);
         }
+
+        return JsonResponse::create([
+            'success' => $success,
+            'html' => $html
+        ]);
     }
 
     /**
-     * Security("has_role('ROLE')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/approve", name="approve_message")
      * @Method("PUT")
      * @param Request $request
@@ -85,7 +93,7 @@ class MessagesController extends Controller
     }
 
     /**
-     * Security("has_role('ROLE')")
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/disapprove", name="disapprove_message")
      * @Method("PUT")
      * @param Request $request

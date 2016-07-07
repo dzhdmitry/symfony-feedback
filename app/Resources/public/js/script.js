@@ -1,8 +1,7 @@
 $(function() {
-    var $preview = $('#action-message-preview');
-    var $edit = $('#action-message-edit');
+    var $container = $('#message-form-container');
 
-    $preview.click(function(e) {
+    $container.on('click', '.action-message-preview', function(e) {
         e.preventDefault();
 
         var $form = $(this).closest('form');
@@ -13,19 +12,19 @@ $(function() {
             return;
         }
 
-        $preview.tab('show');
+        $container.find('.action-message-preview').tab('show');
     });
 
-    $edit.click(function (e) {
+    $container.on('click', '.action-message-edit', function (e) {
         e.preventDefault();
 
-        $edit.tab('show');
+        $container.find('.action-message-edit').tab('show');
         $('#message-preview').empty();
-        $preview.removeClass("hide");
-        $edit.addClass("hide");
+        $container.find('.action-message-preview').removeClass("hide");
+        $container.find('.action-message-edit').addClass("hide");
     });
 
-    $preview.on('show.bs.tab', function() {
+    $container.on('show.bs.tab', '.action-message-preview', function() {
         var $form = $(this).closest('form');
 
         $.ajax({
@@ -35,16 +34,21 @@ $(function() {
             processData: false,
             contentType: false,
             beforeSend: function() {
-                $preview.prop("disabled", true);
+                $container.find('.action-message-preview').prop("disabled", true);
             }
         }).done(function(data) {
-            $('#message-preview').html(data);
-            $preview.addClass("hide");
-            $edit.removeClass("hide");
+            if (data.success) {
+                $('#message-preview').html(data.html);
+
+                $container.find('.action-message-preview').addClass("hide");
+                $container.find('.action-message-edit').removeClass("hide");
+            } else {
+                $container.html(data.html);
+            }
         }).fail(function() {
             console.log(arguments);
         }).always(function() {
-            $preview.prop("disabled", false);
+            $container.find('.action-message-preview').prop("disabled", false);
         });
     });
 });

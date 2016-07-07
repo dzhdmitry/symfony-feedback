@@ -60,7 +60,7 @@ class PictureHandler
                 $newHeight = self::MAX_HEIGHT;
             } else {
                 // resize both
-                if ($widthRatio > $heightRatio) {
+                if ($widthRatio < $heightRatio) {
                     $newHeight = $height * $widthRatio;
                     $newWidth = $width * $widthRatio;
                 } else {
