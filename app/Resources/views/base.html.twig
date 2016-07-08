@@ -32,6 +32,10 @@
                                     </a>
 
                                     <ul class="dropdown-menu">
+                                        {% if app.user.hasRole("ROLE_ADMIN") %}
+                                            <li><a href="{{ path("admin") }}">Admin</a></li>
+                                        {% endif %}
+
                                         <li><a href="{{ path("fos_user_security_logout") }}">Logout</a></li>
                                     </ul>
                                 </li>

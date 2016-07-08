@@ -28,7 +28,9 @@ class MessagesController extends Controller
     public function createAction(Request $request)
     {
         $message = new Message();
-        $form = $this->createMessageForm($message);
+        $form = $this->createForm(MessageType::class, $message, [
+            'action' => $this->generateUrl("create_message")
+        ]);
 
         $form->handleRequest($request);
 
@@ -57,7 +59,9 @@ class MessagesController extends Controller
     public function previewAction(Request $request)
     {
         $message = new Message();
-        $form = $this->createMessageForm($message);
+        $form = $this->createForm(MessageType::class, $message, [
+            'action' => $this->generateUrl("create_message")
+        ]);
 
         $form->handleRequest($request);
 
@@ -135,7 +139,7 @@ class MessagesController extends Controller
                     $em->persist($message);
                     $em->flush();
 
-                    return $this->redirectToRoute("homepage");
+                    return $this->redirectToRoute("admin");
                 } else {
                     return [
                         'message' => $message,
@@ -163,7 +167,7 @@ class MessagesController extends Controller
         $em->persist($message);
         $em->flush();
 
-        return $this->redirectToRoute("homepage");
+        return $this->redirectToRoute("admin");
     }
 
     /**
@@ -183,18 +187,7 @@ class MessagesController extends Controller
         $em->persist($message);
         $em->flush();
 
-        return $this->redirectToRoute("homepage");
-    }
-
-    /**
-     * @param Message $message
-     * @return \Symfony\Component\Form\Form
-     */
-    protected function createMessageForm(Message $message)
-    {
-        return $this->createForm(MessageType::class, $message, [
-            'action' => $this->generateUrl("create_message")
-        ]);
+        return $this->redirectToRoute("admin");
     }
 
     /**

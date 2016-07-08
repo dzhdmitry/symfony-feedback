@@ -26,3 +26,7 @@ security:
 
             logout:       true
             anonymous:    true
+
+    access_control:
+        - { path: ^/register, role: ROLE_NOBODY }
+        - { path: ^/resetting, role: ROLE_NOBODY }
