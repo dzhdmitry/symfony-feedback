@@ -84,24 +84,40 @@ class MessagesController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/approve", name="approve_message")
      * @Method("PUT")
-     * @param Request $request
      * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function approveAction(Request $request, $id)
+    public function approveAction($id)
     {
-        //
+        $message = $this->findMessage($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $message->setApproved(true);
+
+        $em->persist($message);
+        $em->flush();
+
+        return $this->redirectToRoute("homepage");
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/disapprove", name="disapprove_message")
      * @Method("PUT")
-     * @param Request $request
      * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function disapproveAction(Request $request, $id)
+    public function disapproveAction($id)
     {
-        //
+        $message = $this->findMessage($id);
+        $em = $this->getDoctrine()->getManager();
+
+        $message->setApproved(false);
+
+        $em->persist($message);
+        $em->flush();
+
+        return $this->redirectToRoute("homepage");
     }
 
     /**
@@ -113,5 +129,18 @@ class MessagesController extends Controller
         return $this->createForm(MessageType::class, $message, [
             'action' => $this->generateUrl("create_message")
         ]);
+    }
+
+    /**
+     * @param $id
+     * @return Message
+     */
+    protected function findMessage($id)
+    {
+        if ($message = $this->getDoctrine()->getRepository(Message::class)->find($id)) {
+            return $message;
+        } else {
+            throw $this->createNotFoundException("Message not found");
+        }
     }
 }

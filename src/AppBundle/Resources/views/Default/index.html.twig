@@ -2,8 +2,6 @@
 
 {% block body %}
     <div class="container">
-        <h1>Content</h1>
-
         {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
 
         <table class="table table-condensed">
@@ -29,6 +27,8 @@
                     Text
                 </th>
 
+                <th></th>
+
                 <th>
                     {% if p.sort == "createdAt" %}
                         <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "createdAt", direction: nextDirection}) }}" title="Date added">Date added</a>
@@ -36,6 +36,10 @@
                         <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="Date added">Date added</a>
                     {% endif %}
                 </th>
+
+                {% if app.user and app.user.hasRole("ROLE_ADMIN") %}
+                    <th colspan="2"></th>
+                {% endif %}
             </tr>
             </thead>
 
@@ -44,7 +48,7 @@
                 {% include "@App/message.html.twig" %}
             {% else %}
                 <tr>
-                    <td colspan="5" class="bg-info text-center">
+                    <td colspan="{% if app.user and app.user.hasRole("ROLE_ADMIN") %}7{% else %}6{% endif %}" class="bg-info text-center">
                         No messages yet
                     </td>
                 </tr>
