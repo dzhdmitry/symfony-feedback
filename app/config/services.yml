@@ -17,6 +17,6 @@ services:
 
     app.message_manager:
         class:  AppBundle\Service\MessageManager
-        arguments: [ "@doctrine.orm.entity_manager", "@app.picture_handler" ]
+        arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage", "@app.picture_handler" ]
 
 

@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class BaseController extends Controller
+abstract class BaseController extends Controller
 {
     const DEFAULT_SORT = "createdAt";
     const DEFAULT_ORDER = "desc";

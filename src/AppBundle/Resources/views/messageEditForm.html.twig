@@ -1,24 +1,50 @@
-{% form_theme form "bootstrap_3_horizontal_layout.html.twig" %}
+{% form_theme form "@App/Form/feedback_layout.html.twig" %}
 
 {{ form_start(form) }}
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="message-form">
-            {{ form_row(form.body) }}
-            {{ form_row(form.approved) }}
-        </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label required" for="edit_messages_author">Name</label>
 
-        <div role="tabpanel" class="tab-pane" id="message-preview">
-            <div class="loading">
-                Loading&hellip;
+                <div class="col-sm-10">
+                    <input type="text" id="edit_messages_author" name="edit_messages[author]" readonly="readonly" disabled="disabled" value="{{ form.vars.data.author }}" maxlength="255" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label required" for="edit_messages_email">Email</label>
+
+                <div class="col-sm-10">
+                    <input type="email" id="edit_messages_email" name="edit_messages[email]" readonly="readonly" disabled="disabled" value="{{ form.vars.data.email }}" required="required" class="form-control">
+                </div>
+            </div>
+
+            {{ form_row(form.body) }}
+
+            {% if message.picture is not empty %}
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <a href="{{ message.picture.filename }}" class="message-picture thumbnail" target="_blank">
+                            <span class="glyphicon glyphicon-new-window"></span>
+                            <div style="background-image: url({{ message.picture.filename }});"></div>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+
+            {{ form_row(form.approved) }}
+
+            <div class="form-group">
+                <div class="col-sm-12 text-right">
+                    <button type="button" data-target="#message-preview" class="btn btn-default btn-sm action-message-preview">
+                        Preview&hellip;
+                    </button>
+
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-sm-12 text-right">
-            <button type="button" data-target="#message-preview" class="btn btn-default action-message-preview">Preview&hellip;</button>
-            <button type="button" data-target="#message-form" class="btn btn-default action-message-edit hide">Continue edit</button>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
+        <div role="tabpanel" class="tab-pane" id="message-preview"></div>
     </div>
 {{ form_end(form) }}

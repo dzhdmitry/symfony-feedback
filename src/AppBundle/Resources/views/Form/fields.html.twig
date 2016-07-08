@@ -1,0 +1,14 @@
+{% block uploading_widget -%}
+    {% spaceless %}
+        <div class="input-group">
+            <input type="text" data-for="#{{ form.vars.id }}" class="form-control input-sm" readonly="readonly" placeholder="No file chosen">
+
+            {% set attr = attr|merge({class: (attr.class|default('') ~ ' file-label-name')|trim}) %}
+            {{- block('form_widget_simple') -}}
+
+            <span class="input-group-btn">
+                <label class="btn btn-default btn-sm" for="{{ form.vars.id }}">Browse</label>
+            </span>
+        </div>
+    {% endspaceless %}
+{%- endblock %}

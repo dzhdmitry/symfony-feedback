@@ -26,7 +26,7 @@ class DefaultController extends BaseController
 
         $sort = self::getSort($request);
         $order = self::getOrder($request);
-        $messages = $this->getDoctrine()->getRepository(Message::class)->findMessages($sort, $order);
+        $messages = $this->getDoctrine()->getRepository(Message::class)->findMessages($sort, $order, true);
 
         return [
             'messages' => $messages,

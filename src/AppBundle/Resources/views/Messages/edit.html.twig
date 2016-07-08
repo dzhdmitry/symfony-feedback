@@ -1,9 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <div id="message-form-container" data-url="{{ path("edit_message", {id: message.id}) }}">
-            {% include "@App/messageEditForm.html.twig" %}
-        </div>
+    <h1>Editing message</h1>
+
+    <div id="edit-message-form-container" data-url="{{ path("preview_message", {id: message.id}) }}">
+        {% include "@App/messageEditForm.html.twig" %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function() {
+            var form = new MessageForm({
+                el: $('#edit-message-form-container')
+            });
+        });
+    </script>
 {% endblock %}

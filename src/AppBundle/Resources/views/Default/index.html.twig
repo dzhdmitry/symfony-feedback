@@ -1,59 +1,92 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
+    <div class="messages-controls text-right">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sorted by
 
-        <table class="table table-condensed">
-            <thead>
-            <tr>
-                <th>
-                    {% if p.sort == "author" %}
-                        <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "author", direction: nextDirection}) }}" title="Name">Name</a>
-                    {% else %}
-                        <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="Name">Name</a>
-                    {% endif %}
-                </th>
+                {% if p.sort == "author" %}
+                    author
+                {% elseif p.sort == "email" %}
+                    email
+                {% else %}
+                    date added
+                {% endif %}
 
-                <th>
-                    {% if p.sort == "email" %}
-                        <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "email", direction: nextDirection}) }}" title="Email">Email</a>
-                    {% else %}
-                        <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="Email">Email</a>
-                    {% endif %}
-                </th>
+                <span class="caret"></span>
+            </button>
 
-                <th colspan="2">
-                    Text
-                </th>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li{% if p.sort == "author" %} class="active"{% endif %}>
+                    <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="Sort by author">
+                        Author
+                    </a>
+                </li>
 
-                <th></th>
+                <li{% if p.sort == "email" %} class="active"{% endif %}>
+                    <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="Sort by email">
+                        Email
+                    </a>
+                </li>
 
-                <th>
-                    {% if p.sort == "createdAt" %}
-                        <a class="{{ p.direction }}" href="{{ path("homepage", {sort: "createdAt", direction: nextDirection}) }}" title="Date added">Date added</a>
-                    {% else %}
-                        <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="Date added">Date added</a>
-                    {% endif %}
-                </th>
-            </tr>
-            </thead>
+                <li{% if p.sort == "createdAt" %} class="active"{% endif %}>
+                    <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="Sort by date added">
+                        Date added
+                    </a>
+                </li>
+            </ul>
+        </div>
 
-            <tbody id="messages-container">
-            {% for message in messages %}
-                {% include "@App/message.html.twig" %}
-            {% else %}
-                <tr>
-                    <td colspan="6" class="bg-info text-center">
-                        No messages yet
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Ordered by
 
-        <div id="message-form-container" data-url="{{ path("preview_message") }}">
-            {% include "@App/messageCreateForm.html.twig" with {form: messageForm} %}
+                {% if p.direction == "asc" %}
+                    ascending
+                {% else %}
+                    descending
+                {% endif %}
+
+                <span class="caret"></span>
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li{% if p.direction == "asc" %} class="active"{% endif %}>
+                    <a href="{{ path("homepage", {sort: p.sort, direction: "asc"}) }}" title="Order by ascending">
+                        Ascending</a>
+                </li>
+
+                <li{% if p.direction == "desc" %} class="active"{% endif %}>
+                    <a href="{{ path("homepage", {sort: p.sort, direction: "desc"}) }}" title="Order by descending">
+                        Descending
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
+
+    <div class="messages-container">
+        {% for message in messages %}
+            {% include "@App/message.html.twig" %}
+        {% else %}
+            <div class="alert alert-info">
+                No messages yet
+            </div>
+        {% endfor %}
+    </div>
+
+    <div id="create-message-form-container" data-url="{{ path("preview_message_draft") }}">
+        {% include "@App/messageCreateForm.html.twig" with {form: messageForm} %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function() {
+            var form = new MessageForm({
+                el: $('#create-message-form-container')
+            });
+        });
+    </script>
 {% endblock %}

@@ -1,9 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        <h1>Creating message</h1>
+    <h1>Creating message</h1>
 
+    <div id="create-message-form-container" data-url="{{ path("preview_message_draft") }}">
         {% include "@App/messageCreateForm.html.twig" %}
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function() {
+            var form = new MessageForm({
+                el: $('#create-message-form-container')
+            });
+        });
+    </script>
 {% endblock %}

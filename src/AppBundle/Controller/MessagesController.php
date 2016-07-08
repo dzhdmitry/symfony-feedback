@@ -36,6 +36,7 @@ class MessagesController extends Controller
 
         if ($form->isValid()) {
             $this->get("app.message_manager")->create($message);
+            $this->addFlash("success", "Message has been successfully created. It will appear in list after approval");
 
             return $this->redirectToRoute("homepage");
         } else {
@@ -46,12 +47,11 @@ class MessagesController extends Controller
     }
 
     /**
-     * @Template
-     * @Route("/preview", name="preview_message")
+     * @Route("/preview", name="preview_message_draft")
      * @param Request $request
      * @return array
      */
-    public function previewAction(Request $request)
+    public function previewDraftAction(Request $request)
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message, [
@@ -64,7 +64,7 @@ class MessagesController extends Controller
             $this->get("app.picture_handler")->uploadPreview($message);
 
             $success = true;
-            $html = $this->renderView("@App/Messages/preview.html.twig", [
+            $html = $this->renderView("@App/Messages/previewDraft.html.twig", [
                 'message' => $message
             ]);
         } else {
@@ -98,7 +98,6 @@ class MessagesController extends Controller
         ]);
 
         if ($request->isMethod("get")) {
-            // page
             return [
                 'message' => $message,
                 'form' => $form->createView()
@@ -106,38 +105,53 @@ class MessagesController extends Controller
         } else {
             $form->handleRequest($request);
 
-            if ($request->isXmlHttpRequest()) {
-                // preview
-                if ($form->isValid()) {
-                    $success = true;
-                    $html = $this->renderView("@App/Messages/preview.html.twig", [
-                        'message' => $message
-                    ]);
-                } else {
-                    $success = false;
-                    $html = $this->renderView("@App/messageEditForm.html.twig", [
-                        'form' => $form->createView()
-                    ]);
-                }
+            if ($form->isValid()) {
+                $this->get("app.message_manager")->update($message);
 
-                return JsonResponse::create([
-                    'success' => $success,
-                    'html' => $html
-                ]);
+                return $this->redirectToRoute("admin");
             } else {
-                // save
-                if ($form->isValid()) {
-                    $this->get("app.message_manager")->update($message);
-
-                    return $this->redirectToRoute("admin");
-                } else {
-                    return [
-                        'message' => $message,
-                        'form' => $form->createView()
-                    ];
-                }
+                return [
+                    'message' => $message,
+                    'form' => $form->createView()
+                ];
             }
         }
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/{id}/preview", name="preview_message")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+     */
+    public function previewAction(Request $request, $id)
+    {
+        $message = $this->findMessage($id);
+        $form = $this->createForm(MessageEditType::class, $message, [
+            'action' => $this->generateUrl("edit_message", [
+                'id' => $id
+            ])
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $success = true;
+            $html = $this->renderView("@App/Messages/preview.html.twig", [
+                'message' => $message
+            ]);
+        } else {
+            $success = false;
+            $html = $this->renderView("@App/messageEditForm.html.twig", [
+                'form' => $form->createView()
+            ]);
+        }
+
+        return JsonResponse::create([
+            'success' => $success,
+            'html' => $html
+        ]);
     }
 
     /**

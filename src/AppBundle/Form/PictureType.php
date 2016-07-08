@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Picture;
+use AppBundle\Form\Type\UploadingType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -15,7 +16,7 @@ class PictureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('originalFilename', FileType::class, [
+            ->add('originalFilename', UploadingType::class, [
                 'required' => false,
                 'label' => "Picture",
                 'constraints' => [

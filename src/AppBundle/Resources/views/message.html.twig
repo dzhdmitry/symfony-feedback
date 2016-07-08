@@ -1,33 +1,36 @@
-<tr>
-    <td>{{ message.author }}</td>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-sm-8">
+                {{ message.author }}
+                <a href="mailto:{{ message.email }}">{{ message.email }}</a>
+            </div>
 
-    <td>
-        <a href="mailto:{{ message.email }}">{{ message.email }}</a>
-    </td>
+            <div class="col-sm-4 text-right">
+                {{ message.createdAt|date }}
+            </div>
+        </div>
+    </div>
 
-    <td>
-        {% if message.body|length > 100 %}
-            {{ message.body|slice(0, 100) }}&hellip;
-        {% else %}
+    <div class="panel-body">
+        <p>
             {{ message.body }}
-        {% endif %}
-    </td>
+        </p>
 
-    <td class="text-right">
-        {% if message.picture is not empty %}
-            <a href="{{ message.picture.filename }}" class="message-picture thumbnail" target="_blank">
-                <div style="background-image: url({{ message.picture.filename }});"></div>
-            </a>
-        {% endif %}
-    </td>
-
-    <td class="text-right">
         {% if message.changedByAdmin %}
-            <span class="label label-info">
-                Changed by admin
-            </span>
+            <p class="text-right">
+                <span class="label label-info">
+                    Changed by admin
+                </span>
+            </p>
         {% endif %}
-    </td>
 
-    <td>{{ message.createdAt|date }}</td>
-</tr>
+        {% if message.picture is not empty %}
+            <div class="message-thumbnail">
+                <a href="{{ message.picture.filename }}" target="_blank">
+                    <img src="{{ message.picture.filename }}">
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
