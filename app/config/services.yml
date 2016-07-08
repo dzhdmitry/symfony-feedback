@@ -14,3 +14,9 @@ services:
     app.picture_handler:
         class:  AppBundle\Service\PictureHandler
         arguments: [ "%previews_dir%", "%pictures_dir%" ]
+
+    app.message_manager:
+        class:  AppBundle\Service\MessageManager
+        arguments: [ "@doctrine.orm.entity_manager", "@app.picture_handler" ]
+
+

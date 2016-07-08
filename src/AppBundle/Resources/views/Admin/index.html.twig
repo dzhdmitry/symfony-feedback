@@ -27,8 +27,6 @@
                     Text
                 </th>
 
-                <th></th>
-
                 <th>
                     {% if p.sort == "createdAt" %}
                         <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="Date added">Date added</a>

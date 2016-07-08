@@ -35,12 +35,7 @@ class MessagesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get("app.picture_handler")->uploadPicture($message);
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($message);
-            $em->flush();
+            $this->get("app.message_manager")->create($message);
 
             return $this->redirectToRoute("homepage");
         } else {
@@ -132,12 +127,7 @@ class MessagesController extends Controller
             } else {
                 // save
                 if ($form->isValid()) {
-                    $message->setChangedByAdmin(true);
-
-                    $em = $this->getDoctrine()->getManager();
-
-                    $em->persist($message);
-                    $em->flush();
+                    $this->get("app.message_manager")->update($message);
 
                     return $this->redirectToRoute("admin");
                 } else {
@@ -160,12 +150,8 @@ class MessagesController extends Controller
     public function approveAction($id)
     {
         $message = $this->findMessage($id);
-        $em = $this->getDoctrine()->getManager();
 
-        $message->setApproved(true);
-
-        $em->persist($message);
-        $em->flush();
+        $this->get("app.message_manager")->setApproved($message, true);
 
         return $this->redirectToRoute("admin");
     }
@@ -180,12 +166,8 @@ class MessagesController extends Controller
     public function disapproveAction($id)
     {
         $message = $this->findMessage($id);
-        $em = $this->getDoctrine()->getManager();
 
-        $message->setApproved(false);
-
-        $em->persist($message);
-        $em->flush();
+        $this->get("app.message_manager")->setApproved($message, false);
 
         return $this->redirectToRoute("admin");
     }
