@@ -56,8 +56,8 @@
             </tbody>
         </table>
 
-        <div id="message-form-container">
-            {% include "@App/messagesForm.html.twig" with {form: messageForm} %}
+        <div id="message-form-container" data-url="{{ path("preview_message") }}">
+            {% include "@App/messageCreateForm.html.twig" with {form: messageForm} %}
         </div>
     </div>
 {% endblock %}

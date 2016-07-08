@@ -1,0 +1,24 @@
+{% form_theme form "bootstrap_3_horizontal_layout.html.twig" %}
+
+{{ form_start(form) }}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="message-form">
+            {{ form_row(form.body) }}
+            {{ form_row(form.approved) }}
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="message-preview">
+            <div class="loading">
+                Loading&hellip;
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12 text-right">
+            <button type="button" data-target="#message-preview" class="btn btn-default action-message-preview">Preview&hellip;</button>
+            <button type="button" data-target="#message-form" class="btn btn-default action-message-edit hide">Continue edit</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+{{ form_end(form) }}

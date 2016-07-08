@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div id="message-form-container" data-url="{{ path("edit_message", {id: message.id}) }}">
+            {% include "@App/messageEditForm.html.twig" %}
+        </div>
+    </div>
+{% endblock %}

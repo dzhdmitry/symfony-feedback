@@ -31,41 +31,43 @@
 
     <td>{{ message.createdAt|date }}</td>
 
-    {% if message.id and app.user and app.user.hasRole("ROLE_ADMIN") %}
-        <td>
-            {% if message.isApproved %}
-                <span class="label label-primary">Approved</span>
-            {% else %}
-                <span class="label label-warning">Not approved</span>
-            {% endif %}
-        </td>
+    {% if isPreview is not defined %}
+        {% if message.id and app.user and app.user.hasRole("ROLE_ADMIN") %}
+            <td>
+                {% if message.isApproved %}
+                    <span class="label label-primary">Approved</span>
+                {% else %}
+                    <span class="label label-warning">Not approved</span>
+                {% endif %}
+            </td>
 
-        <td class="text-right">
-            <div class="btn-group" role="group">
-                <a href="#" class="btn btn-xs btn-default">Edit</a>
-
+            <td class="text-right">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                        <span class="caret"></span>
-                    </button>
+                    <a href="{{ path("edit_message", {id: message.id}) }}" class="btn btn-xs btn-default">Edit</a>
 
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li>
-                            {% if message.isApproved %}
-                                <form action="{{ path("disapprove_message", {id: message.id}) }}" method="post">
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <button type="submit" class="dropdown-submit">Disapprove</button>
-                                </form>
-                            {% else %}
-                                <form action="{{ path("approve_message", {id: message.id}) }}" method="post">
-                                    <input type="hidden" name="_method" value="PUT">
-                                    <button type="submit" class="dropdown-submit">Approve</button>
-                                </form>
-                            {% endif %}
-                        </li>
-                    </ul>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li>
+                                {% if message.isApproved %}
+                                    <form action="{{ path("disapprove_message", {id: message.id}) }}" method="post">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <button type="submit" class="dropdown-submit">Disapprove</button>
+                                    </form>
+                                {% else %}
+                                    <form action="{{ path("approve_message", {id: message.id}) }}" method="post">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <button type="submit" class="dropdown-submit">Approve</button>
+                                    </form>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </td>
+            </td>
+        {% endif %}
     {% endif %}
 </tr>

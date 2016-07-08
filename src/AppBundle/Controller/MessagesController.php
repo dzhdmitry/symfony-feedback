@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Message;
+use AppBundle\Form\MessageEditType;
 use AppBundle\Form\MessageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -69,7 +70,7 @@ class MessagesController extends Controller
             ]);
         } else {
             $success = false;
-            $html = $this->renderView("@App/messagesForm.html.twig", [
+            $html = $this->renderView("@App/messageCreateForm.html.twig", [
                 'form' => $form->createView()
             ]);
         }
@@ -78,6 +79,71 @@ class MessagesController extends Controller
             'success' => $success,
             'html' => $html
         ]);
+    }
+
+    /**
+     * @Template
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/{id}", name="edit_message")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+     */
+    public function editAction(Request $request, $id)
+    {
+        $message = $this->findMessage($id);
+        $form = $this->createForm(MessageEditType::class, $message, [
+            'action' => $this->generateUrl("edit_message", [
+                'id' => $id
+            ])
+        ]);
+
+        if ($request->isMethod("get")) {
+            // page
+            return [
+                'message' => $message,
+                'form' => $form->createView()
+            ];
+        } else {
+            $form->handleRequest($request);
+
+            if ($request->isXmlHttpRequest()) {
+                // preview
+                if ($form->isValid()) {
+                    $success = true;
+                    $html = $this->renderView("@App/Messages/preview.html.twig", [
+                        'message' => $message
+                    ]);
+                } else {
+                    $success = false;
+                    $html = $this->renderView("@App/messageEditForm.html.twig", [
+                        'form' => $form->createView()
+                    ]);
+                }
+
+                return JsonResponse::create([
+                    'success' => $success,
+                    'html' => $html
+                ]);
+            } else {
+                // save
+                if ($form->isValid()) {
+                    $message->setChangedByAdmin(true);
+
+                    $em = $this->getDoctrine()->getManager();
+
+                    $em->persist($message);
+                    $em->flush();
+
+                    return $this->redirectToRoute("homepage");
+                } else {
+                    return [
+                        'message' => $message,
+                        'form' => $form->createView()
+                    ];
+                }
+            }
+        }
     }
 
     /**
