@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Admin &ndash; Feedback{% endblock %}
+
 {% block body %}
     {% set currentRoute = app.request.attributes.get('_route') %}
+    {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
 
     <ul class="nav nav-pills">
         <li role="presentation"{% if currentRoute == "admin" %} class="active"{% endif %}>
@@ -25,8 +28,6 @@
             </a>
         </li>
     </ul>
-
-    {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
 
     <table class="table table-condensed">
         <thead>
