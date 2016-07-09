@@ -5,6 +5,17 @@ body {
     padding-bottom: 70px;
 }
 
+a.asc:after, a.desc:after {
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    content: " ";
+    margin-left: 3px;
+    display: inline-block;
+}
+
 a.asc, a.desc {
     &:after {
         width: 0;
