@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="picture")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PictureRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Picture
 {
@@ -121,5 +122,23 @@ class Picture
     public function getAbsolutePath()
     {
         return __DIR__."/../../../web".$this->getFilename();
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeFile()
+    {
+        $path = $this->getAbsolutePath();
+
+        if (!is_file($path)) {
+            return;
+        }
+
+        if (!is_writable($path)) {
+            return;
+        }
+
+        unlink($path);
     }
 }
