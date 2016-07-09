@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html id="no-js">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="description" content="Feedback Symfony 3 app">
         <title>{% block title %}Feedback{% endblock %}</title>
         <link href="{{ asset("css/style.css") }}" rel="stylesheet">
         {% block stylesheets %}{% endblock %}
@@ -21,7 +22,7 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <a class="navbar-brand" href="{{ path("homepage") }}">Feedback</a>
+                        <a class="navbar-brand" href="{{ path("homepage") }}" title="Go to front page">Feedback</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbar-main">
@@ -33,7 +34,7 @@
                                     </a>
 
                                     <ul class="dropdown-menu">
-                                        {% if app.user.hasRole("ROLE_ADMIN") %}
+                                        {% if is_granted("ROLE_ADMIN") %}
                                             <li><a href="{{ path("admin") }}">Admin</a></li>
                                         {% endif %}
 
@@ -52,6 +53,11 @@
         </header>
 
         <div class="container">
+            <div class="alert alert-warning noscript">
+                <b>Feedback app requires Javascript.</b>
+                Please enable Javascript in your browser to use all site's functionality
+            </div>
+
             {% if app.session.flashBag.has("success") %}
                 <div class="alert alert-success">
                     {% for message in app.session.flashBag.get("success") %}
@@ -64,8 +70,12 @@
             {% block body %}{% endblock %}
         </div>
 
+        <script>
+            document.documentElement.id = "js";
+        </script>
+
         <script src="{{ asset("js/libraries.js") }}"></script>
-        <script src="{{ asset("js/script.js") }}"></script>
+        <script src="{{ asset("js/app.js") }}"></script>
         {% block javascripts %}{% endblock %}
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->

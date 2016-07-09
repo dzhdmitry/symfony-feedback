@@ -23,7 +23,7 @@
 
         <li role="presentation"{% if currentRoute == "admin_disapproved" %} class="active"{% endif %}>
             <a href="{{ path("admin_disapproved") }}">
-                Not approved
+                Not&nbsp;approved
                 <span class="badge">{{ count.disapproved }}</span>
             </a>
         </li>
@@ -34,17 +34,17 @@
         <tr>
             <th>
                 {% if p.sort == "author" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "author", direction: nextDirection}) }}" title="Name">Name</a>
+                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "author", direction: nextDirection}) }}" title="Sort by name">Name</a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "author", direction: p.direction}) }}" title="Name">Name</a>
+                    <a href="{{ path("admin", {sort: "author", direction: p.direction}) }}" title="Sort by name">Name</a>
                 {% endif %}
             </th>
 
             <th>
                 {% if p.sort == "email" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "email", direction: nextDirection}) }}" title="Email">Email</a>
+                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "email", direction: nextDirection}) }}" title="Sort by email">Email</a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "email", direction: p.direction}) }}" title="Email">Email</a>
+                    <a href="{{ path("admin", {sort: "email", direction: p.direction}) }}" title="Sort by email">Email</a>
                 {% endif %}
             </th>
 
@@ -54,9 +54,9 @@
 
             <th>
                 {% if p.sort == "createdAt" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="Date added">Date&nbsp;added</a>
+                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="Sort by date added">Date&nbsp;added</a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "createdAt", direction: p.direction}) }}" title="Date added">Date&nbsp;added</a>
+                    <a href="{{ path("admin", {sort: "createdAt", direction: p.direction}) }}" title="Sort by date added">Date&nbsp;added</a>
                 {% endif %}
             </th>
 
@@ -110,7 +110,7 @@
                     {% if message.isApproved %}
                         <span class="label label-primary">Approved</span>
                     {% else %}
-                        <span class="label label-warning">Not approved</span>
+                        <span class="label label-warning">Not&nbsp;approved</span>
                     {% endif %}
                 </td>
 
@@ -133,7 +133,7 @@
                                     {% else %}
                                         <form action="{{ path("approve_message", {id: message.id}) }}" method="post">
                                             <input type="hidden" name="_method" value="PUT">
-                                            <button type="submit" class="dropdown-submit" title="Make this message visible">Approve</button>
+                                            <button type="submit" class="dropdown-submit" title="Make this message visible for users">Approve</button>
                                         </form>
                                     {% endif %}
                                 </li>

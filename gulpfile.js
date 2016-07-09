@@ -22,8 +22,8 @@ gulp.task('compile:js-vendor', function() {
 
 gulp.task('compile:js', function() {
     gulp.src(RESOURCES_ROOT + '/js/**/*.js')
-        //.pipe(minify()) // todo warning: twice include
-        .pipe(concat("script.js"))
+        .pipe(concat("app.js"))
+        .pipe(minify())
         .pipe(gulp.dest('./web/js'));
 });
 
@@ -48,7 +48,7 @@ gulp.task('default', [
 ]);
 
 gulp.task('watch', ['default'], function() {
-    gulp.watch([RESOURCES_ROOT + '/css/**/*'], ['compile:css']);
+    gulp.watch(RESOURCES_ROOT + '/css/**/*', ['compile:css']);
 
     gulp.watch(RESOURCES_ROOT + '/js/**/*', ['compile:js']);
 });

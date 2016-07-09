@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Picture;
 use AppBundle\Exception\PictureHandlerException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PictureHandler
 {
@@ -92,6 +93,25 @@ class PictureHandler
 
     /**
      * @param Message $message
+     * @return string
+     */
+    protected static function generatePictureFilename(Message $message, UploadedFile $file)
+    {
+        $LENGTH = 10;
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $string = "";
+        $prefix = $message->getId() ? $message->getId()."-" : "";
+
+        for ($i = 0; $i < $LENGTH; $i++) {
+            $string .= $characters[rand(0, $charactersLength - 1)];
+        }
+
+        return sprintf("%s%s.%s", $prefix, $string, $file->guessExtension());
+    }
+
+    /**
+     * @param Message $message
      * @param $type
      */
     protected function upload(Message $message, $type)
@@ -107,9 +127,9 @@ class PictureHandler
             $this->throwPictureHandlerException("Directory '%s' is not writable", $destination);
         }
 
-        /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $file */
+        /** @var UploadedFile $file */
         $file = $picture->getOriginalFilename();
-        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $fileName = self::generatePictureFilename($message, $file);
 
         $file->move($destination, $fileName);
 

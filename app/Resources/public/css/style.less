@@ -3,6 +3,12 @@ body {
     padding-bottom: 70px;
 }
 
+#js {
+    .noscript {
+        display: none;
+    }
+}
+
 a.asc:after, a.desc:after {
     width: 0;
     height: 0;
@@ -161,4 +167,10 @@ a.desc:after {
 
 input[type=file].file-label-name {
     display: none;
+}
+
+.has-error {
+    .input-group .btn {
+        border-color: #a94442;
+    }
 }
