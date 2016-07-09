@@ -124,7 +124,7 @@ class PictureHandler
         }
 
         if (!is_writable($destination)) {
-            $this->throwPictureHandlerException("Directory '%s' is not writable", $destination);//todo
+            $this->throwPictureHandlerException("Directory '%s' is not writable", $destination);
         }
 
         /** @var UploadedFile $file */
