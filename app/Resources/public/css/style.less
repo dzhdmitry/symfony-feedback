@@ -3,17 +3,6 @@ body {
     padding-bottom: 70px;
 }
 
-a.asc:after, a.desc:after {
-    width: 0;
-    height: 0;
-    vertical-align: middle;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-    content: " ";
-    margin-left: 3px;
-    display: inline-block;
-}
-
 a.asc, a.desc {
     &:after {
         width: 0;
@@ -36,6 +25,31 @@ a.desc:after {
     border-top: 4px solid;
 }
 
+.alert {
+    font-size: 13px;
+    padding: 10px 12px;
+}
+
+input[type=file].file-label-name {
+    display: none;
+}
+
+.has-error {
+    .input-group .btn {
+        border-color: #a94442;
+    }
+}
+
+.btn-group-sm, .btn-group-xs {
+    > .dropdown-menu {
+        font-size: 12px;
+
+        > li > a {
+            padding: 5px 10px;
+        }
+    }
+}
+
 .messages-controls {
     margin-left: auto;
     margin-right: auto;
@@ -47,17 +61,50 @@ a.desc:after {
     }
 }
 
+.messages-navigation {
+    font-size: 12px;
+    margin-bottom: 15px;
+
+    > li > a {
+        padding: 8px 12px;
+    }
+}
+
+.messages-container, .messages-table {
+    font-size: 13px;
+}
+
 .messages-container {
     margin-left: auto;
     margin-right: auto;
     max-width: 600px;
 
     p {
+        overflow-x: auto;
         margin-bottom: 15px;
 
         &:last-child {
             margin-bottom: 0;
         }
+    }
+}
+
+.messages-table {
+    .column-string {
+        word-break: break-all;
+    }
+
+    .column-text {
+        max-width: 400px;
+        overflow-x: auto;
+    }
+
+    .column-date {
+        min-width: 100px;
+    }
+
+    .column-actions {
+        min-width: 70px;
     }
 }
 
@@ -123,7 +170,13 @@ a.desc:after {
     }
 }
 
+.message-form {
+    background-color: #f5f5f5;
+    padding: 15px;
+}
+
 .message-preview {
+    background-color: #fff;
     border: 1px dashed #ddd;
     border-radius: 10px;
     padding: 0 10px;
@@ -148,33 +201,5 @@ a.desc:after {
         color: #262626;
         text-decoration: none;
         background-color: #f5f5f5;
-    }
-}
-
-.column-text {
-    word-break: break-all;
-}
-
-.column-actions {
-    min-width: 70px;
-}
-
-input[type=file].file-label-name {
-    display: none;
-}
-
-.has-error {
-    .input-group .btn {
-        border-color: #a94442;
-    }
-}
-
-.btn-group-sm, .btn-group-xs {
-    > .dropdown-menu {
-        font-size: 12px;
-
-        > li > a {
-            padding: 5px 10px;
-        }
     }
 }

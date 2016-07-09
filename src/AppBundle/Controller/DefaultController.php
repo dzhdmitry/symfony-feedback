@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Message;
-use AppBundle\Form\MessageType;
+use AppBundle\Form\MessageCreateType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +20,7 @@ class DefaultController extends BaseController
     {
         $message = new Message();
 
-        $form = $this->createForm(MessageType::class, $message, [
+        $form = $this->createForm(MessageCreateType::class, $message, [
             'action' => $this->generateUrl("create_message")
         ]);
 
