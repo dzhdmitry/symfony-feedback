@@ -53,11 +53,6 @@
         </header>
 
         <div class="container">
-            <div class="alert alert-warning noscript">
-                <b>Feedback app requires Javascript.</b>
-                Please enable Javascript in your browser to use all site's functionality
-            </div>
-
             {% if app.session.flashBag.has("success") %}
                 <div class="alert alert-success">
                     {% for message in app.session.flashBag.get("success") %}
@@ -69,10 +64,6 @@
 
             {% block body %}{% endblock %}
         </div>
-
-        <script>
-            document.documentElement.id = "js";
-        </script>
 
         <script src="{{ asset("js/libraries.js") }}"></script>
         <script src="{{ asset("js/app.js") }}"></script>

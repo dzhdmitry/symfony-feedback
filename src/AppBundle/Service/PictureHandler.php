@@ -123,8 +123,8 @@ class PictureHandler
             return;
         }
 
-        if (!is_writable($picture->getAbsolutePath())) {
-            $this->throwPictureHandlerException("Directory '%s' is not writable", $destination);
+        if (!is_writable($destination)) {
+            $this->throwPictureHandlerException("Directory '%s' is not writable", $destination);//todo
         }
 
         /** @var UploadedFile $file */
