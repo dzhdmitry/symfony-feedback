@@ -103,10 +103,14 @@ class MessagesController extends Controller
                 'form' => $form->createView()
             ];
         } else {
+            $data = [
+                'body' => $message
+            ];
+
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $this->get("app.message_manager")->update($message);
+                $this->get("app.message_manager")->update($message, $data);
 
                 return $this->redirectToRoute("admin");
             } else {

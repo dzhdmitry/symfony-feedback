@@ -33,7 +33,11 @@ var MessageForm = Backbone.View.extend({
                 self.$el.html(data.html);
             }
         }).fail(function() {
-            console.log(arguments);
+            $.notify({
+                message: 'Could not open preview'
+            }, {
+                type: 'warning'
+            });
         }).always(function() {
             self.$('button').prop("disabled", false);
         });

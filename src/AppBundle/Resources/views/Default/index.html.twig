@@ -1,70 +1,72 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="messages-controls text-right">
-        <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Sorted&nbsp;by
+    {% if messages|length %}
+        <div class="messages-controls text-right">
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sorted&nbsp;by
 
-                {% if p.sort == "author" %}
-                    author
-                {% elseif p.sort == "email" %}
-                    email
-                {% else %}
-                    date added
-                {% endif %}
+                    {% if p.sort == "author" %}
+                        author
+                    {% elseif p.sort == "email" %}
+                        email
+                    {% else %}
+                        date added
+                    {% endif %}
 
-                <span class="caret"></span>
-            </button>
+                    <span class="caret"></span>
+                </button>
 
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li{% if p.sort == "author" %} class="active"{% endif %}>
-                    <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="Sort by author">
-                        Author
-                    </a>
-                </li>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li{% if p.sort == "author" %} class="active"{% endif %}>
+                        <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="Sort by author">
+                            Author
+                        </a>
+                    </li>
 
-                <li{% if p.sort == "email" %} class="active"{% endif %}>
-                    <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="Sort by email">
-                        Email
-                    </a>
-                </li>
+                    <li{% if p.sort == "email" %} class="active"{% endif %}>
+                        <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="Sort by email">
+                            Email
+                        </a>
+                    </li>
 
-                <li{% if p.sort == "createdAt" %} class="active"{% endif %}>
-                    <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="Sort by date added">
-                        Date added
-                    </a>
-                </li>
-            </ul>
+                    <li{% if p.sort == "createdAt" %} class="active"{% endif %}>
+                        <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="Sort by date added">
+                            Date added
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Ordered&nbsp;by
+
+                    {% if p.direction == "asc" %}
+                        ascending
+                    {% else %}
+                        descending
+                    {% endif %}
+
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li{% if p.direction == "asc" %} class="active"{% endif %}>
+                        <a href="{{ path("homepage", {sort: p.sort, direction: "asc"}) }}" title="Order by ascending">
+                            Ascending</a>
+                    </li>
+
+                    <li{% if p.direction == "desc" %} class="active"{% endif %}>
+                        <a href="{{ path("homepage", {sort: p.sort, direction: "desc"}) }}" title="Order by descending">
+                            Descending
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-
-        <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                Ordered&nbsp;by
-
-                {% if p.direction == "asc" %}
-                    ascending
-                {% else %}
-                    descending
-                {% endif %}
-
-                <span class="caret"></span>
-            </button>
-
-            <ul class="dropdown-menu dropdown-menu-right">
-                <li{% if p.direction == "asc" %} class="active"{% endif %}>
-                    <a href="{{ path("homepage", {sort: p.sort, direction: "asc"}) }}" title="Order by ascending">
-                        Ascending</a>
-                </li>
-
-                <li{% if p.direction == "desc" %} class="active"{% endif %}>
-                    <a href="{{ path("homepage", {sort: p.sort, direction: "desc"}) }}" title="Order by descending">
-                        Descending
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    {% endif %}
 
     <div class="messages-container">
         {% for message in messages %}

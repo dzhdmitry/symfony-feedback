@@ -13,6 +13,7 @@ gulp.task('compile:js-vendor', function() {
     gulp.src([
             VENDOR_ROOT + '/jquery/dist/jquery.min.js',
             VENDOR_ROOT + '/bootstrap/dist/js/bootstrap.min.js',
+            VENDOR_ROOT + '/bootstrap-notify/bootstrap-notify.min.js',
             VENDOR_ROOT + '/underscore/underscore-min.js',
             VENDOR_ROOT + '/backbone/backbone-min.js'
         ])

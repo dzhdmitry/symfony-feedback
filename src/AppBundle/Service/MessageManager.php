@@ -42,29 +42,11 @@ class MessageManager
 
     /**
      * @param Message $message
+     * @param array $data
      */
-    public function update(Message $message)
+    public function update(Message $message, $data = [])
     {
-        $token = $this->storage->getToken();
-
-        if (!$token) {
-            return;
-        }
-
-        /** @var $user User */
-        $user = $token->getUser();
-
-        if (!$user || !$user->hasRole("ROLE_ADMIN")) {
-            return;
-        }
-
-        $uow = $this->em->getUnitOfWork();
-
-        $uow->computeChangeSets();
-
-        $changes = $uow->getEntityChangeSet($message);
-
-        if (count($changes)) {
+        if ($this->userIsAdmin() && self::hasChanged($message, $data)) {
             $message->setChangedByAdmin(true);
         }
 
@@ -79,6 +61,41 @@ class MessageManager
     {
         $message->setApproved($approved);
         $this->save($message);
+    }
+
+    /**
+     * @param Message $message
+     * @param array $data
+     * @return bool
+     */
+    protected static function hasChanged(Message $message, $data = [])
+    {
+        $changed = false;
+
+        if (array_key_exists("body", $data)) {
+            if ($data["body"] !== $message->getBody()) {
+                $changed = true;
+            }
+        }
+
+        return $changed;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function userIsAdmin()
+    {
+        if ($token = $this->storage->getToken()) {
+            if ($user = $token->getUser()) {
+                /** @var $user User */
+                if ($user->hasRole("ROLE_ADMIN")) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
