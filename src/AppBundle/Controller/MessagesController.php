@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Message;
 use AppBundle\Form\MessageEditType;
-use AppBundle\Form\MessageType;
+use AppBundle\Form\MessageCreateType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -28,7 +28,7 @@ class MessagesController extends Controller
     public function createAction(Request $request)
     {
         $message = new Message();
-        $form = $this->createForm(MessageType::class, $message, [
+        $form = $this->createForm(MessageCreateType::class, $message, [
             'action' => $this->generateUrl("create_message")
         ]);
 
@@ -54,7 +54,7 @@ class MessagesController extends Controller
     public function previewDraftAction(Request $request)
     {
         $message = new Message();
-        $form = $this->createForm(MessageType::class, $message, [
+        $form = $this->createForm(MessageCreateType::class, $message, [
             'action' => $this->generateUrl("create_message")
         ]);
 

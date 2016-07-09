@@ -6,7 +6,7 @@
     {% set currentRoute = app.request.attributes.get('_route') %}
     {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
 
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills messages-navigation">
         <li role="presentation"{% if currentRoute == "admin" %} class="active"{% endif %}>
             <a href="{{ path("admin") }}">
                 All
@@ -29,7 +29,7 @@
         </li>
     </ul>
 
-    <table class="table table-condensed">
+    <table class="table table-condensed messages-table">
         <thead>
         <tr>
             <th>
@@ -67,29 +67,32 @@
         <tbody>
         {% for message in messages %}
             <tr>
-                <td class="column-text">
+                <td class="column-string">
                     <span title="{{ message.author }}">
                         {% if message.author|length > 50 %}
-                            {{ message.author|slice(0, 50) }}&hellip;
+                            {{ message.author|slice(0, 50) }}
+                            <b>&hellip;</b>
                         {% else %}
                             {{ message.author }}
                         {% endif %}
                     </span>
                 </td>
 
-                <td class="column-text">
+                <td class="column-string">
                     <a href="mailto:{{ message.email }}" title="{{ message.email }}">
                         {% if message.email|length > 50 %}
-                            {{ message.email|slice(0, 50) }}&hellip;
+                            {{ message.email|slice(0, 50) }}
+                            <b>&hellip;</b>
                         {% else %}
                             {{ message.email }}
                         {% endif %}
                     </a>
                 </td>
 
-                <td>
+                <td class="column-text">
                     {% if message.body|length > 100 %}
-                        {{ message.body|slice(0, 100) }}&hellip;
+                        {{ message.body|slice(0, 100) }}
+                        <b>&hellip;</b>
                     {% else %}
                         {{ message.body }}
                     {% endif %}
@@ -104,7 +107,9 @@
                     {% endif %}
                 </td>
 
-                <td>{{ message.createdAt|date }}</td>
+                <td class="column-date">
+                    {{ message.createdAt|date }}
+                </td>
 
                 <td>
                     {% if message.isApproved %}
@@ -115,10 +120,10 @@
                 </td>
 
                 <td class="text-right column-actions">
-                    <div class="btn-group btn-group-xs" role="group">
+                    <div class="btn-group btn-group-sm" role="group">
                         <a href="{{ path("edit_message", {id: message.id}) }}" class="btn btn-default" title="Open form for editing this messages">Edit</a>
 
-                        <div class="btn-group btn-group-xs" role="group">
+                        <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 <span class="caret"></span>
                             </button>

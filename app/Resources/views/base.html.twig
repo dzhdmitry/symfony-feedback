@@ -28,18 +28,18 @@
                     <div class="collapse navbar-collapse" id="navbar-main">
                         <ul class="nav navbar-nav navbar-right">
                             {% if app.user %}
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        Logged in as {{ app.user }} <span class="caret"></span>
-                                    </a>
+                                <p class="navbar-text">
+                                    Logged in as {{ app.user }}
+                                </p>
 
-                                    <ul class="dropdown-menu">
-                                        {% if is_granted("ROLE_ADMIN") %}
-                                            <li><a href="{{ path("admin") }}">Admin</a></li>
-                                        {% endif %}
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <li>
+                                        <a href="{{ path("admin") }}">Manage messages</a>
+                                    </li>
+                                {% endif %}
 
-                                        <li><a href="{{ path("fos_user_security_logout") }}">Logout</a></li>
-                                    </ul>
+                                <li>
+                                    <a href="{{ path("fos_user_security_logout") }}">Logout</a>
                                 </li>
                             {% else %}
                                 <li>
@@ -66,7 +66,7 @@
         </div>
 
         <script src="{{ asset("js/libraries.js") }}"></script>
-        <script src="{{ asset("js/app.js") }}"></script>
+        <script src="{{ asset("js/app-min.js") }}"></script>
         {% block javascripts %}{% endblock %}
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->

@@ -7,10 +7,11 @@ var MessageForm = Backbone.View.extend({
         e.preventDefault();
 
         var self = this,
-            $this = $(e.currentTarget),
-            $form = $this.closest('form');
+            $btn = $(e.currentTarget),
+            $form = $btn.closest('form'),
+            form = $form.get(0);
 
-        if (!$form.get(0).checkValidity()) {
+        if (form.checkValidity != undefined && !form.checkValidity()) {
             $form.find(':submit').eq(0).click();
 
             return;
@@ -27,8 +28,8 @@ var MessageForm = Backbone.View.extend({
             }
         }).done(function(data) {
             if (data.success) {
-                self.$('#message-preview').html(data.html);
-                $this.tab('show');
+                self.$('div.tab-message-preview').html(data.html);
+                $btn.tab('show');
             } else {
                 self.$el.html(data.html);
             }

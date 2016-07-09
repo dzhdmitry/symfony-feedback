@@ -13,7 +13,10 @@ class MessageEditType extends AbstractType
     {
         $builder
             ->add('body', null, [
-                'label' => "Message text"
+                'label' => "Message text",
+                'attr' => [
+                    'rows' => 5
+                ]
             ])
             ->add('approved', null, [
                 'required' => false
@@ -23,12 +26,10 @@ class MessageEditType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Message::class
+            'data_class' => Message::class,
+            'attr' => [
+                'class' => "message-form"
+            ]
         ]);
-    }
-
-    public function getBlockPrefix()
-    {
-        return "edit_messages";
     }
 }
