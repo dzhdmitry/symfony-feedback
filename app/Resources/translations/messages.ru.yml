@@ -11,7 +11,7 @@ security:
 
 list:
   author:    Имя автора
-  email:     Email
+  email:     E-mail
   body:      Текст сообщения
   createdAt: Дата добавления
 
@@ -52,20 +52,24 @@ form:
   file.empty:    Файл не выбран
 
   author:   Имя
-  email:    Email
-  body:     Текст сообщения
+  email:    E-mail
+  body:     Текст отзыва
   picture:  Картинка
-  approved: Отметить как одобренное
+  approved: Отметить как принятый
 
 admin:
   all:         Все
-  approved:    Одобренные
-  disapproved: Неодобренные
+  approved:    Принятые
+  disapproved: Отклоненнные
+
+  message:
+    approved:    Принят
+    disapproved: Отклонен
 
   action:
     edit:             Изменить
     edit.title:       Открыть форму редактирования отзыва
-    approve:          Одобрить
+    approve:          Отметить как принятый
     approve.title:    Сделать отзыв видимым для пользоавтелей
     disapprove:       Отклонить
     disapprove.title: Скрыть отзыв в списке

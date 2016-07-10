@@ -11,7 +11,7 @@ security:
 
 list:
   author:    Author
-  email:     Email
+  email:     E-mail
   body:      Message Text
   createdAt: Date added
 
@@ -52,7 +52,7 @@ form:
   file.empty:    No file chosen
 
   author:   Name
-  email:    Email
+  email:    E-mail
   body:     Message Text
   picture:  Picture
   approved: Approved
@@ -61,6 +61,10 @@ admin:
   all:         All
   approved:    Approved
   disapproved: Not approved
+
+  message:
+    approved:    Approved
+    disapproved: Not approved
 
   action:
     edit:             Edit
