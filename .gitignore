@@ -28,4 +28,5 @@
 /phpunit.xml
 
 /app/data.db3
+/var/*.db3
 /node_modules

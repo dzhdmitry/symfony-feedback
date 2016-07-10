@@ -10,8 +10,9 @@ Feedback Symfony 3 app
 * `/src/AppBundle/Controller` - контроллеры
 * `/src/AppBundle/Entity` - модели
 * `/src/AppBundle/Resources/views` и `/app/Resources` (кроме public) - шаблоны
+* `/tests` - тесты
 * `/app/Resources/public/js` - javascript
-* `/app/Resources/public/css` - стили 
+* `/app/Resources/public/css` - стили
 
 ## Детали
 
@@ -24,12 +25,20 @@ Feedback Symfony 3 app
 
 * gedmo/doctrine-extensions
 * friendsofsymfony/user-bundle
+* liip/functional-test-bundle
 
 На фронтенде используются:
 * jQuery
 * Bootstrap
 * Backbone
 * bootstrap-notify
+
+## Тестирование
+
+Выполнить:
+
+* `php bin/console server:start --env=test` (Запустит тестовый сервер)
+* `phpunit`
 
 ## License
 

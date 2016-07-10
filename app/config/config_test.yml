@@ -14,3 +14,8 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+
+liip_functional_test: ~
+
+parameters:
+    database_path: '%kernel.root_dir%/../var/data.test.db3'
