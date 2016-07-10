@@ -5,14 +5,14 @@
         {% endif %}
 
         <div class="input-group">
-            <input type="text" data-for="#{{ form.vars.id }}"{% if filename is defined %} value="{{ filename }}"{% endif %} class="form-control input-sm" readonly="readonly" placeholder="No file chosen">
+            <input type="text" data-for="#{{ form.vars.id }}"{% if filename is defined %} value="{{ filename }}"{% endif %} class="form-control input-sm" readonly="readonly" placeholder="{{ "form.file.empty"|trans }}">
 
             {% set attr = attr|merge({class: (attr.class|default('') ~ ' file-label-name')|trim}) %}
             {{- block('form_widget_simple') -}}
 
             <span class="input-group-btn">
                 <label class="btn btn-default btn-sm" for="{{ form.vars.id }}">
-                    Browse&hellip;
+                    {{ "form.browse"|trans }}&hellip;
                 </label>
             </span>
         </div>

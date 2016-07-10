@@ -1,0 +1,79 @@
+pages:
+  home.go:          Перейти на главную страницу
+  admin:            Управление отзывами
+  creating_message: Создание отзыва
+  editing_message:  Редактирование отзыва
+
+security:
+  logged_in_as: Вы вошли как %name%
+  login:        Войти
+  logout:       Выйти
+
+list:
+  author:    Имя автора
+  email:     Email
+  body:      Текст сообщения
+  createdAt: Дата добавления
+
+order:
+  asc:  По возрастанию
+  desc: По убыванию
+
+message:
+  preview:           Предварительный просмотр
+  created:           Отзыв создан. Он появится в списке после проверки
+  adminChanged:      Изменен администратором
+  adminChangedTitle: Отзыв был изменен администратором
+  not_found:         Отзыв не найден
+
+messages:
+  empty:            Отзывов пока нет
+
+  sort_by_author:   Сортировать по мени автора
+  sort_by_email:    Сортировать по email
+  sort_by_date:     Сортировать по дате добавления
+
+  sorted_by_author: Отсортировано по мени автора
+  sorted_by_email:  Отсортировано по email
+  sorted_by_date:   Отсортировано по дате добавления
+
+  order_by_asc:     Упорядочить по возрастанию
+  order_by_desc:    Упорядочить по возрастанию
+  ordered_by_asc:   Упорядочено по возрастанию
+  ordered_by_desc:  Упорядочено по убыванию
+
+form:
+  create:        Отправить
+  create.title:  Отправить сообщения для проверки
+  save:          Сохранить
+  continue_edit: Продолжить редактирование
+  preview:       Предварительный просмотр
+  browse:        Выбрать файл
+  file.empty:    Файл не выбран
+
+  author:   Имя
+  email:    Email
+  body:     Текст сообщения
+  picture:  Картинка
+  approved: Отметить как одобренное
+
+admin:
+  all:         Все
+  approved:    Одобренные
+  disapproved: Неодобренные
+
+  action:
+    edit:             Изменить
+    edit.title:       Открыть форму редактирования отзыва
+    approve:          Одобрить
+    approve.title:    Сделать отзыв видимым для пользоавтелей
+    disapprove:       Отклонить
+    disapprove.title: Скрыть отзыв в списке
+
+exceptions:
+  403: Доступ запрещен
+  404: Страница не найдена
+  500: Ошибка на сервере
+
+js:
+  preview: Не получилось открыть предварительный просмотр

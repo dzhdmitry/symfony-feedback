@@ -36,7 +36,7 @@ class MessagesController extends Controller
 
         if ($form->isValid()) {
             $this->get("app.message_manager")->create($message);
-            $this->addFlash("success", "Message has been successfully created. It will appear in list after approval");
+            $this->addFlash("success", "message.created");
 
             return $this->redirectToRoute("homepage");
         } else {
@@ -199,7 +199,9 @@ class MessagesController extends Controller
         if ($message = $this->getDoctrine()->getRepository(Message::class)->find($id)) {
             return $message;
         } else {
-            throw $this->createNotFoundException("Message not found");
+            $message  = $this->get("translator")->trans("message.not_found");
+
+            throw $this->createNotFoundException($message);
         }
     }
 }

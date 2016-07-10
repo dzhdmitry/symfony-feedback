@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Creating message &ndash; Feedback{% endblock %}
+{% block title %}{{ "pages.creating_message"|trans }} &ndash; Feedback{% endblock %}
 
 {% block body %}
-    <h1>Creating message</h1>
+    <h1>
+        {{ "pages.creating_message"|trans }}
+    </h1>
 
     <div id="create-message-form-container" data-url="{{ path("preview_message_draft") }}">
         {% include "@App/messageCreateForm.html.twig" %}
@@ -14,7 +16,10 @@
     <script>
         $(function() {
             var form = new MessageForm({
-                el: $('#create-message-form-container')
+                el: $('#create-message-form-container'),
+                messages: {
+                    preview: "{{ "js.preview"|trans }}"
+                }
             });
         });
     </script>

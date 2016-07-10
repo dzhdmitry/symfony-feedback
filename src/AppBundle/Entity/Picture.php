@@ -7,10 +7,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Picture
- *
  * @ORM\Table(name="picture")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PictureRepository")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
 class Picture
@@ -25,7 +23,6 @@ class Picture
     /**
      * @ORM\Column(name="originalFilename", type="string", length=255)
      * @Assert\Image
-     *
      */
     private $originalFilename;
 

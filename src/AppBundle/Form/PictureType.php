@@ -17,11 +17,13 @@ class PictureType extends AbstractType
         $builder
             ->add('originalFilename', UploadingType::class, [
                 'required' => false,
-                'label' => "Picture",
+                'label' => "form.picture",
+                'translation_domain' => "messages",
                 'constraints' => [
                     new Image([
                         'maxSize' => "5M",
-                        'mimeTypes' => ["image/jpeg", "image/pjpeg", "image/png", "image/gif"]
+                        'mimeTypes' => ["image/jpeg", "image/pjpeg", "image/png", "image/gif"],
+                        //'maxSizeMessage' todo
                     ])
                 ]
             ])

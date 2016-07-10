@@ -37,4 +37,17 @@ class DefaultController extends BaseController
             'messageForm' => $form->createView()
         ];
     }
+
+    /**
+     * @Route("/locale/{_locale}", name="setLocale", defaults={"_locale": "en"})
+     * @param Request $request
+     * @param $_locale
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function setLocaleAction(Request $request, $_locale)
+    {
+        $referer = $request->headers->get('referer');
+
+        return $this->redirect($referer);
+    }
 }

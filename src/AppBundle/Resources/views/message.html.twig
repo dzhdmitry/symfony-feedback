@@ -7,7 +7,7 @@
             </div>
 
             <div class="col-sm-4 text-right">
-                {{ message.createdAt|date }}
+                {{ message.createdAt|localizeddate('medium', 'short', app.request.locale) }}
             </div>
         </div>
     </div>
@@ -19,8 +19,8 @@
 
         {% if message.changedByAdmin %}
             <p class="text-right">
-                <span class="label label-info" title="Original message has been edited my admin">
-                    Changed by admin
+                <span class="label label-info" title="{{ "message.adminChangedTitle"|trans }}">
+                    {{ "message.adminChanged"|trans }}
                 </span>
             </p>
         {% endif %}

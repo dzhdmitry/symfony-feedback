@@ -14,11 +14,16 @@ class MessageCreateType extends AbstractType
     {
         $builder
             ->add('author', null, [
-                'label' => "Name"
+                'label' => "form.author",
+                'translation_domain' => "messages"
             ])
-            ->add('email', EmailType::class)
+            ->add('email', EmailType::class, [
+                'label' => "form.email",
+                'translation_domain' => "messages"
+            ])
             ->add('body', null, [
-                'label' => "Message text",
+                'label' => "form.body",
+                'translation_domain' => "messages",
                 'attr' => [
                     'rows' => 5
                 ]

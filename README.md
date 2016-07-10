@@ -26,6 +26,7 @@ Feedback Symfony 3 app
 * gedmo/doctrine-extensions
 * friendsofsymfony/user-bundle
 * liip/functional-test-bundle
+* twig/extensions
 
 На фронтенде используются:
 * jQuery

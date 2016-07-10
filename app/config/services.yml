@@ -4,6 +4,11 @@ parameters:
 #    parameter_name: value
 
 services:
+    app.twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+             - { name: 'twig.extension' }
+
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
         tags:
@@ -19,4 +24,8 @@ services:
         class:  AppBundle\Service\MessageManager
         arguments: [ "@doctrine.orm.entity_manager", "@security.token_storage", "@app.picture_handler" ]
 
-
+    app.locale_listener:
+        class: AppBundle\EventListener\LocaleListener
+        arguments: ['%kernel.default_locale%']
+        tags:
+            - { name: kernel.event_subscriber }

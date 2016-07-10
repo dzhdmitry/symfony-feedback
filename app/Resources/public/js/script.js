@@ -3,6 +3,13 @@ var MessageForm = Backbone.View.extend({
         'click button.action-message-preview': "preview",
         'click button.action-message-edit': "edit"
     },
+    initialize: function(options) {
+        var defaults = {
+            preview: ""
+        };
+
+        this.messages = _.extend({}, defaults, options.messages);
+    },
     preview: function(e) {
         e.preventDefault();
 
@@ -35,7 +42,7 @@ var MessageForm = Backbone.View.extend({
             }
         }).fail(function() {
             $.notify({
-                message: 'Could not open preview'
+                message: self.messages.preview
             }, {
                 type: 'warning'
             });

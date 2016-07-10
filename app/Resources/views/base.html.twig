@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html id="no-js">
+<html>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,35 +15,54 @@
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-main">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
 
-                        <a class="navbar-brand" href="{{ path("homepage") }}" title="Go to front page">Feedback</a>
+                        <a class="navbar-brand" href="{{ path("homepage") }}" title="{{ "pages.home.go"|trans }}">Feedback</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbar-main">
+                        <ul class="nav navbar-nav navbar-left">
+                            <li{% if app.request.locale == "en" %} class="active"{% endif %}>
+                                <a href="{{ path("setLocale", {_locale: "en"}) }}" title="Switch to english">
+                                    EN
+                                </a>
+                            </li>
+
+                            <li{% if app.request.locale == "ru" %} class="active"{% endif %}>
+                                <a href="{{ path("setLocale", {_locale: "ru"}) }}" title="Switch to russian">
+                                    RU
+                                </a>
+                            </li>
+                        </ul>
+
                         <ul class="nav navbar-nav navbar-right">
                             {% if app.user %}
                                 <p class="navbar-text">
-                                    Logged in as {{ app.user }}
+                                    {{ "security.logged_in_as"|trans({'%name%': app.user}) }}
                                 </p>
 
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <li>
-                                        <a href="{{ path("admin") }}">Manage messages</a>
+                                        <a href="{{ path("admin") }}">
+                                            {{ "pages.admin"|trans }}
+                                        </a>
                                     </li>
                                 {% endif %}
 
                                 <li>
-                                    <a href="{{ path("fos_user_security_logout") }}">Logout</a>
+                                    <a href="{{ path("fos_user_security_logout") }}">
+                                        {{ "security.logout"|trans }}
+                                    </a>
                                 </li>
                             {% else %}
                                 <li>
-                                    <a href="{{ path("fos_user_security_login") }}">Log in</a>
+                                    <a href="{{ path("fos_user_security_login") }}">
+                                        {{ "security.login"|trans }}
+                                    </a>
                                 </li>
                             {% endif %}
                         </ul>
@@ -56,7 +75,7 @@
             {% if app.session.flashBag.has("success") %}
                 <div class="alert alert-success">
                     {% for message in app.session.flashBag.get("success") %}
-                        {{ message }}
+                        {{ message|trans }}
                         {% if not loop.last %}<br>{% endif %}
                     {% endfor %}
                 </div>

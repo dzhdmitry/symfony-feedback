@@ -1,37 +1,25 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-        <meta name="description" content="Feedback Symfony 3 app">
-        <title>{% block title %}Feedback{% endblock %}</title>
-        <link href="{{ asset("css/style.css") }}" rel="stylesheet">
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
+{% extends "@Twig/Exception/excepniot.base.html.twig" %}
 
-    <body>
+{% block title %}{{ "exceptions.403"|trans }} &ndash; Feedback{% endblock %}
 
-    <div class="container">
-        <h1>403</h1>
+{% block body %}
+    <h1>403</h1>
 
-        <p>You are not allowed to this part of site</p>
+    <p>
+        {{ "exceptions.403"|trans }}
+    </p>
 
-        <ul>
-            <li>
-                <a href="{{ path("homepage") }}">Go to the front page</a>
-            </li>
+    <ul>
+        <li>
+            <a href="{{ path("homepage") }}">
+                {{ "pages.home.go"|trans }}
+            </a>
+        </li>
 
-            <li>
-                <a href="{{ path("fos_user_security_login") }}">Log in</a>
-            </li>
-        </ul>
-    </div>
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-    </body>
-</html>
+        <li>
+            <a href="{{ path("fos_user_security_login") }}">
+                {{ "security.login"|trans }}
+            </a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,4 @@
+message:
+  author: Author name cannot be blank
+  email:  Email cannot be blank
+  body:   Message text cannot be blank

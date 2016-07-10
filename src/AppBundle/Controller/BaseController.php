@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class BaseController extends Controller
 {
+    const DEFAULT_LOCALE = "en";
     const DEFAULT_SORT = "createdAt";
     const DEFAULT_ORDER = "desc";
 

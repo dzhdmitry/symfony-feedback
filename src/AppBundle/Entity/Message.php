@@ -21,20 +21,20 @@ class Message
 
     /**
      * @ORM\Column(name="author", type="string", length=255)
-     * @Assert\NotBlank(message="Author name cannot be blank")
+     * @Assert\NotBlank(message="message.author")
      */
     private $author;
 
     /**
      * @ORM\Column(name="email", type="string", length=255)
-     * @Assert\NotBlank(message="Email cannot be blank")
-     * @Assert\Email(message="This must be a valid email")
+     * @Assert\NotBlank(message="message.email")
+     * @Assert\Email()
      */
     private $email;
 
     /**
      * @ORM\Column(name="body", type="text")
-     * @Assert\NotBlank(message="Message text cannot be blank")
+     * @Assert\NotBlank(message="message.body")
      */
     private $body;
 

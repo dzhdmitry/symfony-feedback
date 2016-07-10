@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Admin &ndash; Feedback{% endblock %}
+{% block title %}{{ "pages.admin"|trans }} &ndash; Feedback{% endblock %}
 
 {% block body %}
     {% set currentRoute = app.request.attributes.get('_route') %}
@@ -9,21 +9,21 @@
     <ul class="nav nav-pills messages-navigation">
         <li role="presentation"{% if currentRoute == "admin" %} class="active"{% endif %}>
             <a href="{{ path("admin") }}">
-                All
+                {{ "admin.all"|trans }}
                 <span class="badge">{{ count.all }}</span>
             </a>
         </li>
 
         <li role="presentation"{% if currentRoute == "admin_approved" %} class="active"{% endif %}>
             <a href="{{ path("admin_approved") }}">
-                Approved
+                {{ "admin.approved"|trans }}
                 <span class="badge">{{ count.approved }}</span>
             </a>
         </li>
 
         <li role="presentation"{% if currentRoute == "admin_disapproved" %} class="active"{% endif %}>
             <a href="{{ path("admin_disapproved") }}">
-                Not&nbsp;approved
+                {{ "admin.disapproved"|trans }}
                 <span class="badge">{{ count.disapproved }}</span>
             </a>
         </li>
@@ -34,29 +34,41 @@
         <tr>
             <th>
                 {% if p.sort == "author" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "author", direction: nextDirection}) }}" title="Sort by name">Name</a>
+                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "author", direction: nextDirection}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                        {{ "list.author"|trans }}
+                    </a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "author", direction: p.direction}) }}" title="Sort by name">Name</a>
+                    <a href="{{ path("admin", {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                        {{ "list.author"|trans }}
+                    </a>
                 {% endif %}
             </th>
 
             <th>
                 {% if p.sort == "email" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "email", direction: nextDirection}) }}" title="Sort by email">Email</a>
+                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "email", direction: nextDirection}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                        {{ "list.email"|trans }}
+                    </a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "email", direction: p.direction}) }}" title="Sort by email">Email</a>
+                    <a href="{{ path("admin", {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                        {{ "list.email"|trans }}
+                    </a>
                 {% endif %}
             </th>
 
             <th colspan="2">
-                Text
+                {{ "list.body"|trans }}
             </th>
 
             <th>
                 {% if p.sort == "createdAt" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="Sort by date added">Date&nbsp;added</a>
+                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                        {{ "list.createdAt"|trans }}
+                    </a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "createdAt", direction: p.direction}) }}" title="Sort by date added">Date&nbsp;added</a>
+                    <a href="{{ path("admin", {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                        {{ "list.createdAt"|trans }}
+                    </a>
                 {% endif %}
             </th>
 
@@ -108,20 +120,22 @@
                 </td>
 
                 <td class="column-date">
-                    {{ message.createdAt|date }}
+                    {{ message.createdAt|localizeddate('medium', 'short', app.request.locale) }}
                 </td>
 
                 <td>
                     {% if message.isApproved %}
-                        <span class="label label-primary">Approved</span>
+                        <span class="label label-primary">{{ "admin.approved"|trans }}</span>
                     {% else %}
-                        <span class="label label-warning">Not&nbsp;approved</span>
+                        <span class="label label-warning">{{ "admin.disapproved"|trans }}</span>
                     {% endif %}
                 </td>
 
                 <td class="text-right column-actions">
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ path("edit_message", {id: message.id}) }}" class="btn btn-default" title="Open form for editing this messages">Edit</a>
+                        <a href="{{ path("edit_message", {id: message.id}) }}" class="btn btn-default" title="{{ "admin.action.edit.title"|trans }}">
+                            {{ "admin.action.edit"|trans }}
+                        </a>
 
                         <div class="btn-group btn-group-sm" role="group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -133,12 +147,18 @@
                                     {% if message.isApproved %}
                                         <form action="{{ path("disapprove_message", {id: message.id}) }}" method="post">
                                             <input type="hidden" name="_method" value="PUT">
-                                            <button type="submit" class="dropdown-submit" title="Hide this message from users">Disapprove</button>
+
+                                            <button type="submit" class="dropdown-submit" title="{{ "admin.action.disapprove.title"|trans }}">
+                                                {{ "admin.action.disapprove"|trans }}
+                                            </button>
                                         </form>
                                     {% else %}
                                         <form action="{{ path("approve_message", {id: message.id}) }}" method="post">
                                             <input type="hidden" name="_method" value="PUT">
-                                            <button type="submit" class="dropdown-submit" title="Make this message visible for users">Approve</button>
+
+                                            <button type="submit" class="dropdown-submit" title="{{ "admin.action.approve.title"|trans }}">
+                                                {{ "admin.action.approve"|trans }}
+                                            </button>
                                         </form>
                                     {% endif %}
                                 </li>
@@ -150,7 +170,7 @@
         {% else %}
             <tr>
                 <td colspan="7" class="bg-info text-center">
-                    No messages yet
+                    {{ "messages.empty"|trans }}
                 </td>
             </tr>
         {% endfor %}

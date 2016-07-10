@@ -1,6 +1,8 @@
 <div>
     <div class="message-preview">
-        <h3>Preview</h3>
+        <h3>
+            {{ "message.preview"|trans }}
+        </h3>
 
         {% include "@App/message.html.twig" %}
     </div>
@@ -8,10 +10,12 @@
     <div class="form-group">
         <div class="col-sm-12 text-right">
             <button type="button" class="btn btn-default btn-sm action-message-edit" data-target="#message-form">
-                Continue edit
+                {{ "form.continue_edit"|trans }}
             </button>
 
-            <button type="submit" class="btn btn-primary btn-sm" title="Post message for approval">Create</button>
+            <button type="submit" class="btn btn-primary btn-sm" title="{{ "form.create.title"|trans }}">
+                {{ "form.create"|trans }}
+            </button>
         </div>
     </div>
 </div>

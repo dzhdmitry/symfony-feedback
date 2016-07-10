@@ -13,13 +13,16 @@ class MessageEditType extends AbstractType
     {
         $builder
             ->add('body', null, [
-                'label' => "Message text",
+                'label' => "form.body",
+                'translation_domain' => "messages",
                 'attr' => [
                     'rows' => 5
                 ]
             ])
             ->add('approved', null, [
-                'required' => false
+                'required' => false,
+                'label' => "form.approved",
+                'translation_domain' => "messages",
             ]);
     }
 
