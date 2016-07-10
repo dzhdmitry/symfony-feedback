@@ -80,4 +80,5 @@ exceptions:
   500: Internal Server Error
 
 js:
-  preview: Could not open preview
+  too_large: "Could not open preview: File is too large"
+  preview:   Could not open preview

@@ -5,7 +5,8 @@ var MessageForm = Backbone.View.extend({
     },
     initialize: function(options) {
         var defaults = {
-            preview: ""
+            preview: "",
+            too_large: ""
         };
 
         this.messages = _.extend({}, defaults, options.messages);
@@ -13,7 +14,8 @@ var MessageForm = Backbone.View.extend({
     preview: function(e) {
         e.preventDefault();
 
-        var self = this,
+        var STATUS_REQUEST_ENTITY_TOO_LARGE = 413,
+            self = this,
             $btn = $(e.currentTarget),
             $form = $btn.closest('form'),
             form = $form.get(0);
@@ -40,9 +42,11 @@ var MessageForm = Backbone.View.extend({
             } else {
                 self.$el.html(data.html);
             }
-        }).fail(function() {
+        }).fail(function(jqXHR) {
+            var message = (jqXHR.status == STATUS_REQUEST_ENTITY_TOO_LARGE) ? self.messages.too_large : self.messages.preview;
+
             $.notify({
-                message: self.messages.preview
+                message: message
             }, {
                 type: 'warning'
             });
