@@ -85,4 +85,21 @@ abstract class BaseControllerTest extends WebTestCase
 
         $em->flush();
     }
+
+    /**
+     * @return Client
+     */
+    protected function logIn()
+    {
+        $client = new Client();
+        $crawler = $this->createCrawler($client, 'GET', "/login");
+        $form = $crawler->filter('form[action="/login_check"]')->form();
+
+        $client->submit($form, [
+            '_username' => "admin",
+            '_password' => "123",
+        ]);
+
+        return $client;
+    }
 }

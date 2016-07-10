@@ -104,7 +104,7 @@ class MessagesController extends Controller
             ];
         } else {
             $data = [
-                'body' => $message
+                'body' => $message->getBody()
             ];
 
             $form->handleRequest($request);

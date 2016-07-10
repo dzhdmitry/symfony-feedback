@@ -54,6 +54,59 @@ class MessagesControllerTest extends BaseControllerTest
         $this->assertEquals(3, $crawler->filter('.has-error')->count());
     }
 
+    public function testChanged()
+    {
+        $client = $this->logIn();
+        $crawler = $this->createCrawler($client);
+        $form = $crawler->filter('form[name="message_create"]')->form();
+        $crawler = $client->submit($form, [
+            'message_create[author]' => "not edited",
+            'message_create[email]' => "test@test.com",
+            'message_create[body]' => "Text"
+        ]);
+
+        $this->assertContains("Message has been successfully created", $crawler->filter(".alert.alert-success")->text());
+
+        $crawler = $client->request('GET', '/messages/1');
+        $editForm = $crawler->filter('form[name="message_edit"]')->form();
+
+        $editForm['message_edit[approved]']->tick();
+
+        $client->submit($editForm, [
+            'message_edit[body]' => "Text edited"
+        ]);
+
+        $crawler = $client->request('GET', "/");
+
+        $this->assertContains("Text edited", $crawler->filter(".panel-body")->filter('p')->text());
+        $this->assertEquals(1, $crawler->filter(".label.label-info")->count());
+    }
+
+    public function testNotChanged()
+    {
+        $client = $this->logIn();
+        $crawler = $this->createCrawler($client);
+        $form = $crawler->filter('form[name="message_create"]')->form();
+        $crawler = $client->submit($form, [
+            'message_create[author]' => "not edited",
+            'message_create[email]' => "test@test.com",
+            'message_create[body]' => "Text"
+        ]);
+
+        $this->assertContains("Message has been successfully created", $crawler->filter(".alert.alert-success")->text());
+
+        $crawler = $client->request('GET', '/messages/1');
+        $editForm = $crawler->filter('form[name="message_edit"]')->form();
+
+        $editForm['message_edit[approved]']->tick();
+
+        $client->submit($editForm, []);
+
+        $crawler = $client->request('GET', "/");
+
+        $this->assertEquals(0, $crawler->filter(".label.label-info")->count());
+    }
+
     /**
      * Runs before each $this::test* function
      */
