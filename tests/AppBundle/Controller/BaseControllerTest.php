@@ -3,6 +3,7 @@
 namespace tests\AppBundle\Controller;
 
 use AppBundle\Entity\Message;
+use AppBundle\Entity\Picture;
 use Doctrine\ORM\EntityManager;
 use Goutte\Client;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -101,5 +102,20 @@ abstract class BaseControllerTest extends WebTestCase
         ]);
 
         return $client;
+    }
+
+    /**
+     * @param Message $message
+     * @param int $width
+     * @param int $height
+     */
+    protected function assertPictureSize(Message $message, $width, $height)
+    {
+        $picture = $message->getPicture();
+        $img = new \Imagick($picture->getAbsolutePath());
+        $fileWidth = $img->getImageWidth();
+        $fileHeight = $img->getImageHeight();
+
+        $this->assertTrue($fileWidth == $width && $fileHeight == $height);
     }
 }
