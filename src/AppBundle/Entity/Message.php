@@ -28,6 +28,7 @@ class Message
     /**
      * @ORM\Column(name="email", type="string", length=255)
      * @Assert\NotBlank(message="Email cannot be blank")
+     * @Assert\Email(message="This must be a valid email")
      */
     private $email;
 

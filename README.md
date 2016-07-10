@@ -37,8 +37,11 @@ Feedback Symfony 3 app
 
 Выполнить:
 
+* `php bin/console doctrine:database:create --env=test` (Создаст тестовую БД)
+* `php bin/console doctrine:schema:create --env=test` (Создаст таблицы в БД)
 * `php bin/console server:start --env=test` (Запустит тестовый сервер)
 * `phpunit`
+* `php bin/console server:stop`
 
 ## License
 
