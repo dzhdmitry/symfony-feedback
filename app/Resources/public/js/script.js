@@ -1,3 +1,51 @@
+(function($) {
+    var defaults = {
+        container: ""
+    };
+
+    function readURL(input, onLoad) {
+        if (input.files) {
+            for (var i = 0; i < input.files.length; i++) {
+                var file = input.files[i];
+
+                if (!file) {
+                    continue;
+                }
+
+                if (!/\.(png|jpeg|jpg|gif)$/i.test(file.name)) {
+                    continue;
+                }
+
+                var reader = new FileReader();
+
+                reader.onload = onLoad;
+
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    $.fn.imagePreview = function(options) {
+        if (window.FileReader == undefined) {
+            return this;
+        }
+
+        var settings = $.extend({}, defaults, options);
+
+        settings.container.empty();
+
+        readURL(this.get(0), function(e) {
+            var $img = $('<img>')
+                .addClass("img-thumbnail img-thumbnail-picture")
+                .attr('src', e.target.result);
+
+            settings.container.append($img);
+        });
+
+        return this;
+    };
+})(jQuery);
+
 var MessageForm = Backbone.View.extend({
     events: {
         'click button.action-message-preview': "preview",
@@ -70,11 +118,19 @@ var MessageForm = Backbone.View.extend({
 });
 
 $(function() {
+    var imgTemplate = $('#template-img-preview').html();
+
     $(document).on('change', 'input.file-label-name', function() {
-        var id = $(this).attr("id"),
+        var $this = $(this),
+            id = $this.attr("id"),
             files = _.toArray(this.files),
             names = _.pluck(files, "name").join(", ");
 
         $('[data-for="#' + id + '"]').val(names);
+
+        $this.imagePreview({
+            container: $this.closest('div.form-group').find('div.img-container'),
+            template: imgTemplate
+        });
     });
 });
