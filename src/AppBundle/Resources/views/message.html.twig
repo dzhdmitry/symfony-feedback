@@ -1,26 +1,27 @@
+{% spaceless %}
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row">
             <div class="col-sm-8">
-                {{ message.author }}
+                {{- message.author }}
                 <a href="mailto:{{ message.email }}">{{ message.email }}</a>
             </div>
 
             <div class="col-sm-4 text-right">
-                {{ message.createdAt|localizeddate('medium', 'short', app.request.locale) }}
+                {{- message.createdAt|localizeddate('medium', 'short', app.request.locale) -}}
             </div>
         </div>
     </div>
 
     <div class="panel-body">
         <p>
-            {{ message.body }}
+            {{- message.body -}}
         </p>
 
         {% if message.changedByAdmin %}
             <p class="text-right">
                 <span class="label label-info" title="{{ "message.adminChangedTitle"|trans }}">
-                    {{ "message.adminChanged"|trans }}
+                    {{- "message.adminChanged"|trans -}}
                 </span>
             </p>
         {% endif %}
@@ -34,3 +35,4 @@
         {% endif %}
     </div>
 </div>
+{% endspaceless %}

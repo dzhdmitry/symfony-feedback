@@ -1,11 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "pages.admin"|trans }} &ndash; Feedback{% endblock %}
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
+
+{% block title -%}
+    {%- if currentRoute == "admin_approved" -%}
+        {{ "admin.approved"|trans }} &ndash;
+    {%- elseif currentRoute == "admin_disapproved" -%}
+        {{ "admin.disapproved"|trans }} &ndash;
+    {%- endif %}
+
+    {{ "pages.admin"|trans }} &ndash; Feedback
+{%- endblock %}
 
 {% block body %}
-    {% set currentRoute = app.request.attributes.get('_route') %}
-    {% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
-
     <ul class="nav nav-pills messages-navigation">
         <li role="presentation"{% if currentRoute == "admin" %} class="active"{% endif %}>
             <a href="{{ path("admin") }}">
@@ -29,6 +37,7 @@
         </li>
     </ul>
 
+    {% spaceless %}
     <table class="table table-condensed messages-table">
         <thead>
         <tr>
@@ -176,4 +185,5 @@
         {% endfor %}
         </tbody>
     </table>
+    {% endspaceless %}
 {% endblock %}

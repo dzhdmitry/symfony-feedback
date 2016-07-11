@@ -4,10 +4,10 @@
 
 {% block body %}
     <h1>
-        {{ "pages.editing_message"|trans }}
+        {{- "pages.editing_message"|trans -}}
     </h1>
 
-    <div id="edit-message-form-container" data-url="{{ path("preview_message", {id: message.id}) }}">
+    <div id="edit-message-form-container">
         {% include "@App/messageEditForm.html.twig" %}
     </div>
 {% endblock %}
@@ -17,6 +17,7 @@
         $(function() {
             var form = new MessageForm({
                 el: $('#edit-message-form-container'),
+                url: "{{ path("preview_message", {id: message.id}) }}",
                 messages: {
                     preview: "{{ "js.preview"|trans }}",
                     too_large: "{{ "js.too_large"|trans }}"

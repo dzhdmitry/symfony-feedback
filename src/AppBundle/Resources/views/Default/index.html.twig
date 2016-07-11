@@ -65,6 +65,7 @@
         </div>
     {% endif %}
 
+    {% spaceless %}
     <div class="messages-container">
         {% for message in messages %}
             {% include "@App/message.html.twig" %}
@@ -74,8 +75,9 @@
             </div>
         {% endfor %}
     </div>
+    {% endspaceless %}
 
-    <div id="create-message-form-container" data-url="{{ path("preview_message_draft") }}">
+    <div id="create-message-form-container">
         {% include "@App/messageCreateForm.html.twig" with {form: messageForm} %}
     </div>
 {% endblock %}
@@ -85,6 +87,7 @@
         $(function() {
             var form = new MessageForm({
                 el: $('#create-message-form-container'),
+                url: "{{ path("preview_message_draft") }}",
                 messages: {
                     preview: "{{ "js.preview"|trans }}",
                     too_large: "{{ "js.too_large"|trans }}"

@@ -11,6 +11,7 @@
     </head>
 
     <body>
+        {% spaceless %}
         <header>
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container">
@@ -42,26 +43,26 @@
                         <ul class="nav navbar-nav navbar-right">
                             {% if app.user %}
                                 <p class="navbar-text">
-                                    {{ "security.logged_in_as"|trans({'%name%': app.user}) }}
+                                    {{- "security.logged_in_as"|trans({'%name%': app.user}) -}}
                                 </p>
 
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <li>
                                         <a href="{{ path("admin") }}">
-                                            {{ "pages.admin"|trans }}
+                                            {{- "pages.admin"|trans -}}
                                         </a>
                                     </li>
                                 {% endif %}
 
                                 <li>
                                     <a href="{{ path("fos_user_security_logout") }}">
-                                        {{ "security.logout"|trans }}
+                                        {{- "security.logout"|trans -}}
                                     </a>
                                 </li>
                             {% else %}
                                 <li>
                                     <a href="{{ path("fos_user_security_login") }}">
-                                        {{ "security.login"|trans }}
+                                        {{- "security.login"|trans -}}
                                     </a>
                                 </li>
                             {% endif %}
@@ -70,12 +71,13 @@
                 </div>
             </nav>
         </header>
+        {% endspaceless %}
 
         <div class="container">
             {% if app.session.flashBag.has("success") %}
                 <div class="alert alert-success">
                     {% for message in app.session.flashBag.get("success") %}
-                        {{ message|trans }}
+                        {{- message|trans -}}
                         {% if not loop.last %}<br>{% endif %}
                     {% endfor %}
                 </div>

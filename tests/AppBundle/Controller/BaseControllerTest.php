@@ -3,7 +3,6 @@
 namespace tests\AppBundle\Controller;
 
 use AppBundle\Entity\Message;
-use AppBundle\Entity\Picture;
 use Doctrine\ORM\EntityManager;
 use Goutte\Client;
 use Liip\FunctionalTestBundle\Test\WebTestCase;

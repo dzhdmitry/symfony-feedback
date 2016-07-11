@@ -5,11 +5,19 @@ var MessageForm = Backbone.View.extend({
     },
     initialize: function(options) {
         var defaults = {
+            url: "",
+            messages: {}
+        };
+
+        var messages = {
             preview: "",
             too_large: ""
         };
 
-        this.messages = _.extend({}, defaults, options.messages);
+        var settings = _.extend({}, defaults, options);
+
+        this.url = settings.url;
+        this.messages = _.extend({}, messages, settings.messages);
     },
     preview: function(e) {
         e.preventDefault();
@@ -27,7 +35,7 @@ var MessageForm = Backbone.View.extend({
         }
 
         $.ajax({
-            url: self.$el.data("url"),
+            url: self.url,
             type: "post",
             data: new FormData($form.get(0)),
             processData: false,

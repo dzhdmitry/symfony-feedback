@@ -9,7 +9,7 @@ Feedback Symfony 3 app
 
 * `/src/AppBundle/Controller` - контроллеры
 * `/src/AppBundle/Entity` - модели
-* `/src/AppBundle/Resources/views` и `/app/Resources` (кроме public) - шаблоны
+* `/src/AppBundle/Resources/views` и `/app/Resources` (кроме public и translations) - шаблоны
 * `/tests` - тесты
 * `/app/Resources/public/js` - javascript
 * `/app/Resources/public/css` - стили
@@ -23,10 +23,11 @@ Feedback Symfony 3 app
 
 Проект сделан на Symfony 3.1 и Doctrine с использованием бандлов:
 
-* gedmo/doctrine-extensions
-* friendsofsymfony/user-bundle
-* liip/functional-test-bundle
-* twig/extensions
+* `gedmo/doctrine-extensions`
+* `friendsofsymfony/user-bundle`
+* `liip/functional-test-bundle`
+* `twig/extensions`
+* `fabpot/goutte`
 
 На фронтенде используются:
 * jQuery
