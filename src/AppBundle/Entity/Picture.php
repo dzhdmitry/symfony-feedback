@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -50,7 +51,7 @@ class Picture
     /**
      * Set originalFilename
      *
-     * @param string $originalFilename
+     * @param UploadedFile|string $originalFilename
      * @return Picture
      */
     public function setOriginalFilename($originalFilename)
@@ -63,7 +64,7 @@ class Picture
     /**
      * Get originalFilename
      *
-     * @return string
+     * @return UploadedFile|string
      */
     public function getOriginalFilename()
     {

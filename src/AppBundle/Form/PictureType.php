@@ -22,8 +22,7 @@ class PictureType extends AbstractType
                 'constraints' => [
                     new Image([
                         'maxSize' => "5M",
-                        'mimeTypes' => ["image/jpeg", "image/pjpeg", "image/png", "image/gif"],
-                        //'maxSizeMessage' todo
+                        'mimeTypes' => ["image/jpeg", "image/pjpeg", "image/png", "image/gif"]
                     ])
                 ]
             ])

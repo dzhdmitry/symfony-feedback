@@ -61,8 +61,10 @@ input[type=file].file-label-name {
     > .dropdown-menu {
         font-size: 12px;
 
-        > li > a {
-            padding: 5px 10px;
+        > li {
+            > a, .dropdown-submit {
+                padding: 5px 10px;
+            }
         }
     }
 }
@@ -243,4 +245,9 @@ input[type=file].file-label-name {
     max-height: 100px;
     object-fit: cover;
     -o-object-fit: cover;
+}
+
+.pill-caption {
+    position: relative;
+    top: 1px;
 }

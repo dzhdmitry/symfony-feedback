@@ -29,11 +29,11 @@ message:
 messages:
   empty:            Отзывов пока нет
 
-  sort_by_author:   Сортировать по мени автора
+  sort_by_author:   Сортировать по имени автора
   sort_by_email:    Сортировать по email
   sort_by_date:     Сортировать по дате добавления
 
-  sorted_by_author: Отсортировано по мени автора
+  sorted_by_author: Отсортировано по имени автора
   sorted_by_email:  Отсортировано по email
   sorted_by_date:   Отсортировано по дате добавления
 
@@ -69,7 +69,7 @@ admin:
   action:
     edit:             Изменить
     edit.title:       Открыть форму редактирования отзыва
-    approve:          Отметить как принятый
+    approve:          Принять
     approve.title:    Сделать отзыв видимым для пользоавтелей
     disapprove:       Отклонить
     disapprove.title: Скрыть отзыв в списке

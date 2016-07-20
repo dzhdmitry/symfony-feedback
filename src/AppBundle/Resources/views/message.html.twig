@@ -15,7 +15,7 @@
 
     <div class="panel-body">
         <p>
-            {{- message.body -}}
+            {{- message.body|nl2br -}}
         </p>
 
         {% if message.changedByAdmin %}

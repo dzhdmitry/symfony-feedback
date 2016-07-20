@@ -2,37 +2,19 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Message;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MessageEditType extends AbstractType
+class MessageEditType extends BaseMessageType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
+
         $builder
-            ->add('body', null, [
-                'label' => "form.body",
-                'translation_domain' => "messages",
-                'attr' => [
-                    'rows' => 5
-                ]
-            ])
             ->add('approved', null, [
                 'required' => false,
                 'label' => "form.approved",
                 'translation_domain' => "messages",
             ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Message::class,
-            'attr' => [
-                'class' => "message-form"
-            ]
-        ]);
     }
 }

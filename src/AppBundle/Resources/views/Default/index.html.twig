@@ -19,19 +19,19 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li{% if p.sort == "author" %} class="active"{% endif %}>
                         <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
-                            {{ "list.author"|trans }}
+                            {{- "list.author"|trans -}}
                         </a>
                     </li>
 
                     <li{% if p.sort == "email" %} class="active"{% endif %}>
                         <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
-                            {{ "list.email"|trans }}
+                            {{- "list.email"|trans -}}
                         </a>
                     </li>
 
                     <li{% if p.sort == "createdAt" %} class="active"{% endif %}>
                         <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
-                            {{ "list.createdAt"|trans }}
+                            {{- "list.createdAt"|trans -}}
                         </a>
                     </li>
                 </ul>
@@ -39,11 +39,11 @@
 
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    {% if p.direction == "asc" %}
+                    {%- if p.direction == "asc" -%}
                         {{ "messages.ordered_by_asc"|trans }}
-                    {% else %}
+                    {%- else -%}
                         {{ "messages.ordered_by_desc"|trans }}
-                    {% endif %}
+                    {%- endif %}
 
                     <span class="caret"></span>
                 </button>
@@ -51,13 +51,13 @@
                 <ul class="dropdown-menu dropdown-menu-right">
                     <li{% if p.direction == "asc" %} class="active"{% endif %}>
                         <a href="{{ path("homepage", {sort: p.sort, direction: "asc"}) }}" title="{{ "messages.order_by_asc"|trans }}">
-                            {{ "order.asc"|trans }}
+                            {{- "order.asc"|trans -}}
                         </a>
                     </li>
 
                     <li{% if p.direction == "desc" %} class="active"{% endif %}>
                         <a href="{{ path("homepage", {sort: p.sort, direction: "desc"}) }}" title="{{ "messages.order_by_desc"|trans }}">
-                            {{ "order.desc"|trans }}
+                            {{- "order.desc"|trans -}}
                         </a>
                     </li>
                 </ul>

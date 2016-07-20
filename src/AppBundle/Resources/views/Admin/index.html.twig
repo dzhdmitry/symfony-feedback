@@ -17,21 +17,21 @@
     <ul class="nav nav-pills messages-navigation">
         <li role="presentation"{% if currentRoute == "admin" %} class="active"{% endif %}>
             <a href="{{ path("admin") }}">
-                {{ "admin.all"|trans }}
+                <span class="pill-caption">{{ "admin.all"|trans }}</span>
                 <span class="badge">{{ count.all }}</span>
             </a>
         </li>
 
         <li role="presentation"{% if currentRoute == "admin_approved" %} class="active"{% endif %}>
             <a href="{{ path("admin_approved") }}">
-                {{ "admin.approved"|trans }}
+                <span class="pill-caption">{{ "admin.approved"|trans }}</span>
                 <span class="badge">{{ count.approved }}</span>
             </a>
         </li>
 
         <li role="presentation"{% if currentRoute == "admin_disapproved" %} class="active"{% endif %}>
             <a href="{{ path("admin_disapproved") }}">
-                {{ "admin.disapproved"|trans }}
+                <span class="pill-caption">{{ "admin.disapproved"|trans }}</span>
                 <span class="badge">{{ count.disapproved }}</span>
             </a>
         </li>
@@ -44,11 +44,11 @@
             <th>
                 {% if p.sort == "author" %}
                     <a class="{{ p.direction }}" href="{{ path("admin", {sort: "author", direction: nextDirection}) }}" title="{{ "messages.sort_by_author"|trans }}">
-                        {{ "list.author"|trans }}
+                        {{- "list.author"|trans -}}
                     </a>
                 {% else %}
                     <a href="{{ path("admin", {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
-                        {{ "list.author"|trans }}
+                        {{- "list.author"|trans -}}
                     </a>
                 {% endif %}
             </th>
@@ -56,27 +56,27 @@
             <th>
                 {% if p.sort == "email" %}
                     <a class="{{ p.direction }}" href="{{ path("admin", {sort: "email", direction: nextDirection}) }}" title="{{ "messages.sort_by_email"|trans }}">
-                        {{ "list.email"|trans }}
+                        {{- "list.email"|trans -}}
                     </a>
                 {% else %}
                     <a href="{{ path("admin", {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
-                        {{ "list.email"|trans }}
+                        {{- "list.email"|trans -}}
                     </a>
                 {% endif %}
             </th>
 
             <th colspan="2">
-                {{ "list.body"|trans }}
+                {{- "list.body"|trans -}}
             </th>
 
             <th>
                 {% if p.sort == "createdAt" %}
                     <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="{{ "messages.sort_by_date"|trans }}">
-                        {{ "list.createdAt"|trans }}
+                        {{- "list.createdAt"|trans -}}
                     </a>
                 {% else %}
                     <a href="{{ path("admin", {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
-                        {{ "list.createdAt"|trans }}
+                        {{- "list.createdAt"|trans -}}
                     </a>
                 {% endif %}
             </th>
@@ -90,33 +90,30 @@
             <tr>
                 <td class="column-string">
                     <span title="{{ message.author }}">
-                        {% if message.author|length > 50 %}
-                            {{ message.author|slice(0, 50) }}
-                            <b>&hellip;</b>
-                        {% else %}
+                        {%- if message.author|length > 50 -%}
+                            {{ message.author|slice(0, 50) }}<b>&hellip;</b>
+                        {%- else -%}
                             {{ message.author }}
-                        {% endif %}
+                        {%- endif -%}
                     </span>
                 </td>
 
                 <td class="column-string">
                     <a href="mailto:{{ message.email }}" title="{{ message.email }}">
-                        {% if message.email|length > 50 %}
-                            {{ message.email|slice(0, 50) }}
-                            <b>&hellip;</b>
-                        {% else %}
+                        {%- if message.email|length > 50 -%}
+                            {{ message.email|slice(0, 50) }}<b>&hellip;</b>
+                        {%- else -%}
                             {{ message.email }}
-                        {% endif %}
+                        {%- endif -%}
                     </a>
                 </td>
 
                 <td class="column-text">
-                    {% if message.body|length > 100 %}
-                        {{ message.body|slice(0, 100) }}
-                        <b>&hellip;</b>
-                    {% else %}
-                        {{ message.body }}
-                    {% endif %}
+                    {%- if message.body|length > 200 -%}
+                        {{ message.body|slice(0, 200) }}<b>&hellip;</b>
+                    {%- else -%}
+                        {{ message.body -}}
+                    {%- endif -%}
                 </td>
 
                 <td class="text-right">
@@ -129,21 +126,21 @@
                 </td>
 
                 <td class="column-date">
-                    {{ message.createdAt|localizeddate('medium', 'short', app.request.locale) }}
+                    {{- message.createdAt|localizeddate('medium', 'short', app.request.locale) -}}
                 </td>
 
                 <td>
-                    {% if message.isApproved %}
+                    {%- if message.isApproved -%}
                         <span class="label label-primary">{{ "admin.message.approved"|trans }}</span>
-                    {% else %}
+                    {%- else -%}
                         <span class="label label-warning">{{ "admin.message.disapproved"|trans }}</span>
-                    {% endif %}
+                    {%- endif -%}
                 </td>
 
                 <td class="text-right column-actions">
                     <div class="btn-group btn-group-sm" role="group">
                         <a href="{{ path("edit_message", {id: message.id}) }}" class="btn btn-default" title="{{ "admin.action.edit.title"|trans }}">
-                            {{ "admin.action.edit"|trans }}
+                            {{- "admin.action.edit"|trans -}}
                         </a>
 
                         <div class="btn-group btn-group-sm" role="group">
@@ -158,7 +155,7 @@
                                             <input type="hidden" name="_method" value="PUT">
 
                                             <button type="submit" class="dropdown-submit" title="{{ "admin.action.disapprove.title"|trans }}">
-                                                {{ "admin.action.disapprove"|trans }}
+                                                {{- "admin.action.disapprove"|trans -}}
                                             </button>
                                         </form>
                                     {% else %}
@@ -166,7 +163,7 @@
                                             <input type="hidden" name="_method" value="PUT">
 
                                             <button type="submit" class="dropdown-submit" title="{{ "admin.action.approve.title"|trans }}">
-                                                {{ "admin.action.approve"|trans }}
+                                                {{- "admin.action.approve"|trans -}}
                                             </button>
                                         </form>
                                     {% endif %}
@@ -179,7 +176,7 @@
         {% else %}
             <tr>
                 <td colspan="7" class="bg-info text-center">
-                    {{ "messages.empty"|trans }}
+                    {{- "messages.empty"|trans -}}
                 </td>
             </tr>
         {% endfor %}

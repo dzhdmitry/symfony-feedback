@@ -118,8 +118,6 @@ var MessageForm = Backbone.View.extend({
 });
 
 $(function() {
-    var imgTemplate = $('#template-img-preview').html();
-
     $(document).on('change', 'input.file-label-name', function() {
         var $this = $(this),
             id = $this.attr("id"),
@@ -129,8 +127,7 @@ $(function() {
         $('[data-for="#' + id + '"]').val(names);
 
         $this.imagePreview({
-            container: $this.closest('div.form-group').find('div.img-container'),
-            template: imgTemplate
+            container: $this.closest('div.form-group').find('div.img-container')
         });
     });
 });
