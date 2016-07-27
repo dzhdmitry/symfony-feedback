@@ -137,6 +137,6 @@ class Picture
             return;
         }
 
-        unlink($path);
+        @unlink($path);
     }
 }

@@ -25,6 +25,12 @@
         }
     }
 
+    /**
+     * Create preview thumbnail for file input
+     *
+     * @param {{container}} options
+     * @returns {jQuery}
+     */
     $.fn.imagePreview = function(options) {
         if (window.FileReader == undefined) {
             return this;

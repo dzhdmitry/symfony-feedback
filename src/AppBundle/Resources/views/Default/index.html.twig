@@ -3,6 +3,7 @@
 {% block body %}
     {% if messages|length %}
         <div class="messages-controls text-right">
+            {% spaceless %}
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if p.sort == "author" %}
@@ -62,6 +63,7 @@
                     </li>
                 </ul>
             </div>
+            {% endspaceless %}
         </div>
     {% endif %}
 

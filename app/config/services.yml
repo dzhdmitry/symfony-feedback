@@ -18,7 +18,11 @@ services:
 
     app.picture_handler:
         class:  AppBundle\Service\PictureHandler
-        arguments: [ "%previews_dir%", "%pictures_dir%" ]
+        arguments: [ "%public_dir%", "%pictures_folder%" ]
+
+    app.preview_handler:
+        class:  AppBundle\Service\PictureHandler
+        arguments: [ "%public_dir%", "%previews_folder%" ]
 
     app.message_manager:
         class:  AppBundle\Service\MessageManager

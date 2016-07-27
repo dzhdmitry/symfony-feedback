@@ -49,7 +49,7 @@ class MessagesController extends Controller
     /**
      * @Route("/preview", name="preview_message_draft")
      * @param Request $request
-     * @return array
+     * @return JsonResponse
      */
     public function previewDraftAction(Request $request)
     {
@@ -61,7 +61,7 @@ class MessagesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $this->get("app.picture_handler")->uploadPreview($message);
+            $this->get("app.preview_handler")->upload($message);
 
             $success = true;
             $html = $this->renderView("@App/Messages/previewDraft.html.twig", [
@@ -127,7 +127,7 @@ class MessagesController extends Controller
      * @Route("/{id}/preview", name="preview_message")
      * @param Request $request
      * @param $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+     * @return JsonResponse
      */
     public function previewAction(Request $request, $id)
     {
@@ -199,9 +199,9 @@ class MessagesController extends Controller
         if ($message = $this->getDoctrine()->getRepository(Message::class)->find($id)) {
             return $message;
         } else {
-            $message  = $this->get("translator")->trans("message.not_found");
+            $errorMessage = $this->get("translator")->trans("message.not_found");
 
-            throw $this->createNotFoundException($message);
+            throw $this->createNotFoundException($errorMessage);
         }
     }
 }

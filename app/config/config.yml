@@ -8,8 +8,8 @@ imports:
 parameters:
     locale: en
     public_dir: "%kernel.root_dir%/../web"
-    pictures_dir: "%public_dir%/pictures"
-    previews_dir: "%public_dir%/previews"
+    pictures_folder: "/pictures"
+    previews_folder: "/previews"
 
 framework:
     #esi:             ~

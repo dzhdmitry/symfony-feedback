@@ -28,15 +28,11 @@
                     <div class="collapse navbar-collapse" id="navbar-main">
                         <ul class="nav navbar-nav navbar-left">
                             <li{% if app.request.locale == "en" %} class="active"{% endif %}>
-                                <a href="{{ path("setLocale", {_locale: "en"}) }}" title="Switch to english">
-                                    EN
-                                </a>
+                                <a href="{{ path("setLocale", {_locale: "en"}) }}" title="Switch to english">EN</a>
                             </li>
 
                             <li{% if app.request.locale == "ru" %} class="active"{% endif %}>
-                                <a href="{{ path("setLocale", {_locale: "ru"}) }}" title="Switch to russian">
-                                    RU
-                                </a>
+                                <a href="{{ path("setLocale", {_locale: "ru"}) }}" title="Switch to russian">RU</a>
                             </li>
                         </ul>
 

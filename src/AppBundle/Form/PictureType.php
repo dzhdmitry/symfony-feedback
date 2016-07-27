@@ -19,6 +19,9 @@ class PictureType extends AbstractType
                 'required' => false,
                 'label' => "form.picture",
                 'translation_domain' => "messages",
+                'attr' => [
+                    'accept' => "image/*"
+                ],
                 'constraints' => [
                     new Image([
                         'maxSize' => "5M",

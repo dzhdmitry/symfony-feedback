@@ -12,32 +12,29 @@ class PictureHandler
     const MAX_WIDTH = 320;
     const MAX_HEIGHT = 240;
 
-    const TYPE_PREVIEW = "/previews/";
-    const TYPE_PICTURE = "/pictures/";
+    protected $directory;
 
-    protected $previewsDir;
+    protected $folder;
 
-    protected $picturesDir;
-
-    public function __construct($previewsDir, $picturesDir)
+    public function __construct($publicDir, $folder)
     {
-        $this->previewsDir = $previewsDir;
-        $this->picturesDir = $picturesDir;
+        $this->directory = $publicDir.$folder;
+        $this->folder = $folder;
     }
 
     /**
      * @param Picture $picture
      */
-    public function resizePicture(Picture $picture)
+    public function resize(Picture $picture)
     {
         $path = $picture->getAbsolutePath();
 
         if (!is_file($path)) {
-            $this->throwPictureHandlerException("File '%s' does not exist", $path);
+            self::throwPictureHandlerException("File '%s' does not exist", $path);
         }
 
         if (!is_writable($picture->getAbsolutePath())) {
-            $this->throwPictureHandlerException("File '%s' is not writable", $path);
+            self::throwPictureHandlerException("File '%s' is not writable", $path);
         }
 
         $img = new \Imagick($path);
@@ -78,21 +75,33 @@ class PictureHandler
     /**
      * @param Message $message
      */
-    public function uploadPicture(Message $message)
+    public function upload(Message $message)
     {
-        $this->upload($message, self::TYPE_PICTURE);
+        $picture = $message->getPicture();
+
+        if (!$picture) {
+            return;
+        }
+
+        if (!is_writable($this->directory)) {
+            self::throwPictureHandlerException("Directory '%s' is not writable", $this->directory);
+        }
+
+        /** @var UploadedFile $file */
+        $file = $picture->getOriginalFilename();
+        $fileName = self::generatePictureFilename($message, $file);
+
+        $file->move($this->directory, $fileName);
+
+        $picture->setFilename($this->folder.'/'.$fileName);
+        $picture->setOriginalFilename($file->getClientOriginalName());
+
+        $this->resize($picture);
     }
 
     /**
      * @param Message $message
-     */
-    public function uploadPreview(Message $message)
-    {
-        $this->upload($message, self::TYPE_PREVIEW);
-    }
-
-    /**
-     * @param Message $message
+     * @param UploadedFile $file
      * @return string
      */
     protected static function generatePictureFilename(Message $message, UploadedFile $file)
@@ -111,40 +120,11 @@ class PictureHandler
     }
 
     /**
-     * @param Message $message
-     * @param $type
-     */
-    protected function upload(Message $message, $type)
-    {
-        $picture = $message->getPicture();
-        $destination = ($type == self::TYPE_PICTURE) ? $this->picturesDir : $this->previewsDir;
-
-        if (!$picture) {
-            return;
-        }
-
-        if (!is_writable($destination)) {
-            $this->throwPictureHandlerException("Directory '%s' is not writable", $destination);
-        }
-
-        /** @var UploadedFile $file */
-        $file = $picture->getOriginalFilename();
-        $fileName = self::generatePictureFilename($message, $file);
-
-        $file->move($destination, $fileName);
-
-        $picture->setFilename($type.$fileName);
-        $picture->setOriginalFilename($file->getClientOriginalName());
-
-        $this->resizePicture($picture);
-    }
-
-    /**
      * @param $text
      * @param $path
      * @throws PictureHandlerException
      */
-    protected function throwPictureHandlerException($text, $path)
+    protected static function throwPictureHandlerException($text, $path)
     {
         throw new PictureHandlerException(sprintf($text, $path));
     }

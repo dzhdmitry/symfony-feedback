@@ -38,7 +38,7 @@ messages:
   sorted_by_date:   Отсортировано по дате добавления
 
   order_by_asc:     Упорядочить по возрастанию
-  order_by_desc:    Упорядочить по возрастанию
+  order_by_desc:    Упорядочить по убыванию
   ordered_by_asc:   Упорядочено по возрастанию
   ordered_by_desc:  Упорядочено по убыванию
 

@@ -36,7 +36,7 @@ class MessageManager
      */
     public function create(Message $message)
     {
-        $this->pictureHandler->uploadPicture($message);
+        $this->pictureHandler->upload($message);
         $this->save($message);
     }
 
