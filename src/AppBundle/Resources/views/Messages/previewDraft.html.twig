@@ -5,7 +5,7 @@
             {{- "message.preview"|trans -}}
         </h3>
 
-        {% include "@App/message.html.twig" %}
+        {% include "@App/message.html.twig" with {previewDraftMode: true} %}
     </div>
     {% endspaceless %}
 

@@ -4,13 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="picture")
+ * @ORM\Table(name="picture", indexes={@ORM\Index(name="slug_idx", columns={"slug"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity(fields={"slug"})
  */
 class Picture
 {
@@ -22,10 +24,19 @@ class Picture
     private $id;
 
     /**
+     * @ORM\Column(name="slug", type="string", unique=true)
+     */
+    private $slug;
+
+    /**
      * @ORM\Column(name="originalFilename", type="string", length=255)
-     * @Assert\Image
      */
     private $originalFilename;
+
+    /**
+     * @ORM\Column(name="path", type="string", length=255)
+     */
+    private $path;
 
     /**
      * @ORM\Column(name="filename", type="string", length=255)
@@ -38,6 +49,28 @@ class Picture
      */
     private $message;
 
+    public function __construct()
+    {
+        $this->slug = $this->generateUniqueRandomString();
+    }
+
+    /**
+     * @param int $length
+     * @return string
+     */
+    public function generateUniqueRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $string = "";
+
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[random_int(0, $charactersLength - 1)];
+        }
+
+        return $string;
+    }
+
     /**
      * Get id
      *
@@ -46,6 +79,29 @@ class Picture
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Picture
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**
@@ -69,6 +125,29 @@ class Picture
     public function getOriginalFilename()
     {
         return $this->originalFilename;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return Picture
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
@@ -119,7 +198,7 @@ class Picture
 
     public function getAbsolutePath()
     {
-        return __DIR__."/../../../web".$this->getFilename();
+        return __DIR__."/../../../var/" . $this->getPath() . "/" . $this->getFilename();
     }
 
     /**

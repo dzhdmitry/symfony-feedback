@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Message;
+use AppBundle\Entity\Picture;
 use AppBundle\Form\MessageCreateType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -49,5 +50,35 @@ class DefaultController extends BaseController
         $referer = $request->headers->get('referer');
 
         return $this->redirect($referer);
+    }
+
+    /**
+     * @Route("/picture/{slug}/{filename}", name="picture")
+     * @param $slug
+     * @param $filename
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function pictureAction($slug, $filename)
+    {
+        $picture = $this->getDoctrine()->getManager()->getRepository(Picture::class)->findOneBy([
+            'slug' => $slug,
+            'originalFilename' => $filename
+        ]);
+
+        if (!$picture) {
+            throw $this->createNotFoundException();
+        }
+
+        return $this->get("app.picture_handler")->pictureResponse($picture->getFilename(), $picture->getOriginalFilename());
+    }
+
+    /**
+     * @Route("/preview/{filename}", name="preview")
+     * @param $filename
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function previewAction($filename)
+    {
+        return $this->get("app.preview_handler")->pictureResponse($filename);
     }
 }

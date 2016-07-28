@@ -16,10 +16,6 @@
 /vendor/
 
 /web/bundles/
-/web/pictures/*
-/web/previews/*
-!web/pictures/.gitkeep
-!web/previews/.gitkeep
 /web/css/
 /web/fonts/
 /web/js/
@@ -29,4 +25,8 @@
 
 /app/data.db3
 /var/*.db3
+/var/pictures/*
+/var/previews/*
+!var/pictures/.gitkeep
+!var/previews/.gitkeep
 /node_modules

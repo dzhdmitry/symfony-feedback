@@ -5,7 +5,9 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Picture;
 use AppBundle\Exception\PictureHandlerException;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class PictureHandler
 {
@@ -16,9 +18,9 @@ class PictureHandler
 
     protected $folder;
 
-    public function __construct($publicDir, $folder)
+    public function __construct($uploadsDir, $folder)
     {
-        $this->directory = $publicDir.$folder;
+        $this->directory = $uploadsDir.$folder;
         $this->folder = $folder;
     }
 
@@ -89,34 +91,39 @@ class PictureHandler
 
         /** @var UploadedFile $file */
         $file = $picture->getOriginalFilename();
-        $fileName = self::generatePictureFilename($message, $file);
+        $fileName = sprintf("%s.%s", $picture->getSlug(), $file->guessExtension());
 
         $file->move($this->directory, $fileName);
 
-        $picture->setFilename($this->folder.'/'.$fileName);
+        $picture->setFilename($fileName);
         $picture->setOriginalFilename($file->getClientOriginalName());
+        $picture->setPath($this->folder);
 
         $this->resize($picture);
     }
 
     /**
-     * @param Message $message
-     * @param UploadedFile $file
-     * @return string
+     * @param $filename
+     * @param $originalFilename
+     * @param bool $download
+     * @return BinaryFileResponse
      */
-    protected static function generatePictureFilename(Message $message, UploadedFile $file)
+    public function pictureResponse($filename, $originalFilename = null, $download = false)
     {
-        $LENGTH = 10;
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $string = "";
-        $prefix = $message->getId() ? $message->getId()."-" : "";
+        $filePath = __DIR__ . "/../../../var" . $this->folder . "/" . $filename;
+        $response = new BinaryFileResponse($filePath, 200, [], true);
 
-        for ($i = 0; $i < $LENGTH; $i++) {
-            $string .= $characters[rand(0, $charactersLength - 1)];
+        if ($download) {
+            if (!$originalFilename) {
+                $originalFilename = $filename;
+            }
+
+            $ascii = mb_convert_encoding($originalFilename, "ascii");
+
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $originalFilename, $ascii);
         }
 
-        return sprintf("%s%s.%s", $prefix, $string, $file->guessExtension());
+        return $response;
     }
 
     /**

@@ -118,9 +118,9 @@
 
                 <td class="text-right">
                     {% if message.picture is not empty %}
-                        <a href="{{ message.picture.filename }}" class="message-picture thumbnail" target="_blank">
+                        <a href="{{ path("picture", {slug: message.picture.slug, filename: message.picture.originalFilename}) }}" class="message-picture thumbnail" target="_blank">
                             <span class="glyphicon glyphicon-new-window"></span>
-                            <div style="background-image: url({{ message.picture.filename }});"></div>
+                            <div style="background-image: url({{ path("picture", {slug: message.picture.slug, filename: message.picture.originalFilename}) }});"></div>
                         </a>
                     {% endif %}
                 </td>
