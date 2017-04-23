@@ -43,11 +43,11 @@
         <tr>
             <th>
                 {% if p.sort == "author" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "author", direction: nextDirection}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                    <a class="{{ p.direction }}" href="{{ path(currentRoute, {sort: "author", direction: nextDirection}) }}" title="{{ "messages.sort_by_author"|trans }}">
                         {{- "list.author"|trans -}}
                     </a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                    <a href="{{ path(currentRoute, {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
                         {{- "list.author"|trans -}}
                     </a>
                 {% endif %}
@@ -55,11 +55,11 @@
 
             <th>
                 {% if p.sort == "email" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "email", direction: nextDirection}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                    <a class="{{ p.direction }}" href="{{ path(currentRoute, {sort: "email", direction: nextDirection}) }}" title="{{ "messages.sort_by_email"|trans }}">
                         {{- "list.email"|trans -}}
                     </a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                    <a href="{{ path(currentRoute, {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
                         {{- "list.email"|trans -}}
                     </a>
                 {% endif %}
@@ -71,11 +71,11 @@
 
             <th>
                 {% if p.sort == "createdAt" %}
-                    <a class="{{ p.direction }}" href="{{ path("admin", {sort: "createdAt", direction: nextDirection}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                    <a class="{{ p.direction }}" href="{{ path(currentRoute, {sort: "createdAt", direction: nextDirection}) }}" title="{{ "messages.sort_by_date"|trans }}">
                         {{- "list.createdAt"|trans -}}
                     </a>
                 {% else %}
-                    <a href="{{ path("admin", {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                    <a href="{{ path(currentRoute, {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
                         {{- "list.createdAt"|trans -}}
                     </a>
                 {% endif %}

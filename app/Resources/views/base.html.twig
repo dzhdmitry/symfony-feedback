@@ -70,14 +70,14 @@
         {% endspaceless %}
 
         <div class="container">
-            {% if app.session.flashBag.has("success") %}
+            {%- if app.session.flashBag.has("success") -%}
                 <div class="alert alert-success">
                     {% for message in app.session.flashBag.get("success") %}
                         {{- message|trans -}}
                         {% if not loop.last %}<br>{% endif %}
                     {% endfor %}
                 </div>
-            {% endif %}
+            {%- endif -%}
 
             {% block body %}{% endblock %}
         </div>
