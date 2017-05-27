@@ -29,12 +29,12 @@
         {% if message.picture is not empty %}
             <div class="message-thumbnail">
                 {% if previewDraftMode is defined and previewDraftMode %}
-                    <a href="{{ path("preview", {filename: message.picture.filename}) }}" target="_blank">
-                        <img src="{{ path("preview", {filename: message.picture.filename}) }}">
+                    <a href="{{ message.picture.webPath }}" target="_blank">
+                        <img src="{{ message.picture.webPath }}">
                     </a>
                 {% else %}
-                    <a href="{{ path("picture", {slug: message.picture.slug, filename: message.picture.originalFilename}) }}" target="_blank">
-                        <img src="{{ path("picture", {slug: message.picture.slug, filename: message.picture.originalFilename}) }}">
+                    <a href="{{ message.picture.webPath }}" target="_blank">
+                        <img src="{{ message.picture.webPath }}">
                     </a>
                 {% endif %}
             </div>

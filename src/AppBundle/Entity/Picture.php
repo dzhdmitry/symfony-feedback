@@ -3,10 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="picture", indexes={@ORM\Index(name="slug_idx", columns={"slug"})})
@@ -196,9 +194,20 @@ class Picture
         return $this->message;
     }
 
+    /**
+     * @return string
+     */
     public function getAbsolutePath()
     {
-        return __DIR__."/../../../var/" . $this->getPath() . "/" . $this->getFilename();
+        return __DIR__ . "/../../../web/" . $this->getPath() . "/" . $this->getFilename();
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebPath()
+    {
+        return $this->getPath() . "/" . $this->getFilename();
     }
 
     /**

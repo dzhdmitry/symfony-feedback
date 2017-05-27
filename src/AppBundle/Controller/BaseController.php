@@ -13,7 +13,7 @@ abstract class BaseController extends Controller
 
     /**
      * @param Request $request
-     * @return array
+     * @return string
      */
     protected static function getSort(Request $request)
     {
@@ -25,7 +25,7 @@ abstract class BaseController extends Controller
 
     /**
      * @param Request $request
-     * @return array
+     * @return string
      */
     protected static function getOrder(Request $request)
     {

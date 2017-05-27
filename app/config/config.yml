@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    public_dir: "%kernel.root_dir%/../var"
+    public_dir: "%kernel.root_dir%/../web"
     pictures_folder: "/pictures"
     previews_folder: "/previews"
 

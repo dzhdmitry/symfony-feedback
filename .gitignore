@@ -25,8 +25,8 @@
 
 /app/data.db3
 /var/*.db3
-/var/pictures/*
-/var/previews/*
-!var/pictures/.gitkeep
-!var/previews/.gitkeep
+/web/pictures/*
+/web/previews/*
+!web/pictures/.gitkeep
+!web/previews/.gitkeep
 /node_modules

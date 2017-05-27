@@ -5,9 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Message;
 use AppBundle\Entity\Picture;
 use AppBundle\Exception\PictureHandlerException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class PictureHandler
 {
@@ -20,7 +18,7 @@ class PictureHandler
 
     public function __construct($uploadsDir, $folder)
     {
-        $this->directory = $uploadsDir.$folder;
+        $this->directory = $uploadsDir . $folder;
         $this->folder = $folder;
     }
 
@@ -100,30 +98,6 @@ class PictureHandler
         $picture->setPath($this->folder);
 
         $this->resize($picture);
-    }
-
-    /**
-     * @param $filename
-     * @param $originalFilename
-     * @param bool $download
-     * @return BinaryFileResponse
-     */
-    public function pictureResponse($filename, $originalFilename = null, $download = false)
-    {
-        $filePath = __DIR__ . "/../../../var" . $this->folder . "/" . $filename;
-        $response = new BinaryFileResponse($filePath, 200, [], true);
-
-        if ($download) {
-            if (!$originalFilename) {
-                $originalFilename = $filename;
-            }
-
-            $ascii = mb_convert_encoding($originalFilename, "ascii");
-
-            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $originalFilename, $ascii);
-        }
-
-        return $response;
     }
 
     /**

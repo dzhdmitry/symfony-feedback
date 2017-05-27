@@ -22,7 +22,7 @@ class RemovePreviewsCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $rootDir = $container->getParameter("kernel.root_dir");
-        $previewsDir = $rootDir."/../web/previews";
+        $previewsDir = $rootDir . "/../web/previews";
         $dir = dir($previewsDir);
         $now = new \DateTime();
         $deleted = 0;
