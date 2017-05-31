@@ -30,3 +30,5 @@
 !web/pictures/.gitkeep
 !web/previews/.gitkeep
 /node_modules
+
+/composer.lock

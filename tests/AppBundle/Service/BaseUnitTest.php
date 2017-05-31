@@ -4,7 +4,7 @@ namespace tests\AppBundle\Service;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
-class BaseUnitTest extends \PHPUnit_Framework_TestCase
+abstract class BaseUnitTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Application
