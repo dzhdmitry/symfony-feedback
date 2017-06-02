@@ -23,7 +23,7 @@ message:
   preview:           Preview
   created:           Message has been successfully created. It will appear in list after approval
   adminChanged:      Changed by admin
-  adminChangedTitle: Original message has been edited my admin
+  adminChangedTitle: Original message has been edited by admin
   not_found:         Message not found
 
 messages:

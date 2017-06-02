@@ -221,7 +221,9 @@ class Message
      */
     public function setPicture(Picture $picture = null)
     {
-        $this->picture = $picture->setMessage($this);
+        if ($picture) {
+            $this->picture = $picture->setMessage($this);
+        }
 
         return $this;
     }
