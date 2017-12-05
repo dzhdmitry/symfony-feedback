@@ -3,29 +3,29 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Message;
-use \Doctrine\ORM\EntityRepository;
+use AppBundle\Util\MessagesCriteria;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\UnexpectedResultException;
 
 class MessageRepository extends EntityRepository
 {
     /**
-     * @param $sort
-     * @param $order
-     * @param bool|null $approved
+     * @param MessagesCriteria $criteria
      * @return Message[]
      */
-    public function findMessages($sort, $order, $approved = null)
+    public function findMessages(MessagesCriteria $criteria)
     {
-        $qb = $this->createQueryBuilder("message")
-            ->addSelect("picture")
-            ->leftJoin("message.picture", "picture")
-            ->orderBy("message.".$sort, $order);
+        $qb = $this->createQueryBuilder('message')
+            ->addSelect('picture')
+            ->leftJoin('message.picture', 'picture')
+            ->orderBy('message.'.$criteria->sort, $criteria->direction);
 
-        if ($approved === true) {
-            $qb->where("message.approved = :approved")
-                ->setParameter("approved", true);
-        } elseif ($approved === false) {
-            $qb->where("message.approved = :approved")
-                ->setParameter("approved", false);
+        if ($criteria->approved === MessagesCriteria::FILTER_APPROVED) {
+            $qb->where('message.approved = :approved')
+                ->setParameter('approved', true);
+        } elseif ($criteria->approved === MessagesCriteria::FILTER_DISAPPROVED) {
+            $qb->where('message.approved = :approved')
+                ->setParameter('approved', false);
         }
 
         $messages = $qb->getQuery()->getResult();
@@ -34,24 +34,28 @@ class MessageRepository extends EntityRepository
     }
 
     /**
-     * @param bool|null $approved
+     * @param string $approved
      * @return int
      */
-    public function countMessages($approved = null)
+    public function countMessages($approved = MessagesCriteria::FILTER_ALL)
     {
-        $qb = $this->createQueryBuilder("message")
-            ->select("COUNT(message)");
+        $qb = $this->createQueryBuilder('message')
+            ->select('COUNT(message)');
 
-        if ($approved === true) {
-            $qb->where("message.approved = :approved")
-                ->setParameter("approved", true);
-        } elseif ($approved === false) {
-            $qb->where("message.approved = :approved")
-                ->setParameter("approved", false);
+        if ($approved === MessagesCriteria::FILTER_APPROVED) {
+            $qb->where('message.approved = :approved')
+                ->setParameter('approved', true);
+        } elseif ($approved === MessagesCriteria::FILTER_DISAPPROVED) {
+            $qb->where('message.approved = :approved')
+                ->setParameter('approved', false);
         }
 
-        $messages = $qb->getQuery()->getSingleScalarResult();
+        try {
+            $messages = (int)$qb->getQuery()->getSingleScalarResult();
+        } catch (UnexpectedResultException $e) {
+            $messages = 0;
+        }
 
-        return (int)$messages;
+        return $messages;
     }
 }

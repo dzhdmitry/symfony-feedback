@@ -6,9 +6,9 @@
             {% spaceless %}
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {% if p.sort == "author" %}
+                    {% if criteria.sort == "author" %}
                         {{ "messages.sorted_by_author"|trans }}
-                    {% elseif p.sort == "email" %}
+                    {% elseif criteria.sort == "email" %}
                         {{ "messages.sorted_by_email"|trans }}
                     {% else %}
                         {{ "messages.sorted_by_date"|trans }}
@@ -18,20 +18,20 @@
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li{% if p.sort == "author" %} class="active"{% endif %}>
-                        <a href="{{ path("homepage", {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                    <li{% if criteria.sort == "author" %} class="active"{% endif %}>
+                        <a href="{{ path("app_default_index", {sort: "author", direction: criteria.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
                             {{- "list.author"|trans -}}
                         </a>
                     </li>
 
-                    <li{% if p.sort == "email" %} class="active"{% endif %}>
-                        <a href="{{ path("homepage", {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                    <li{% if criteria.sort == "email" %} class="active"{% endif %}>
+                        <a href="{{ path("app_default_index", {sort: "email", direction: criteria.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
                             {{- "list.email"|trans -}}
                         </a>
                     </li>
 
-                    <li{% if p.sort == "createdAt" %} class="active"{% endif %}>
-                        <a href="{{ path("homepage", {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                    <li{% if criteria.sort == "createdAt" %} class="active"{% endif %}>
+                        <a href="{{ path("app_default_index", {sort: "createdAt", direction: criteria.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
                             {{- "list.createdAt"|trans -}}
                         </a>
                     </li>
@@ -42,7 +42,7 @@
             {% spaceless %}
             <div class="btn-group btn-group-sm">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    {%- if p.direction == "asc" -%}
+                    {%- if criteria.direction == "asc" -%}
                         {{ "messages.ordered_by_asc"|trans }}
                     {%- else -%}
                         {{ "messages.ordered_by_desc"|trans }}
@@ -52,14 +52,14 @@
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li{% if p.direction == "asc" %} class="active"{% endif %}>
-                        <a href="{{ path("homepage", {sort: p.sort, direction: "asc"}) }}" title="{{ "messages.order_by_asc"|trans }}">
+                    <li{% if criteria.direction == "asc" %} class="active"{% endif %}>
+                        <a href="{{ path("app_default_index", {sort: criteria.sort, direction: "asc"}) }}" title="{{ "messages.order_by_asc"|trans }}">
                             {{- "order.asc"|trans -}}
                         </a>
                     </li>
 
-                    <li{% if p.direction == "desc" %} class="active"{% endif %}>
-                        <a href="{{ path("homepage", {sort: p.sort, direction: "desc"}) }}" title="{{ "messages.order_by_desc"|trans }}">
+                    <li{% if criteria.direction == "desc" %} class="active"{% endif %}>
+                        <a href="{{ path("app_default_index", {sort: criteria.sort, direction: "desc"}) }}" title="{{ "messages.order_by_desc"|trans }}">
                             {{- "order.desc"|trans -}}
                         </a>
                     </li>
@@ -91,7 +91,7 @@
         $(function() {
             var form = new MessageForm({
                 el: $('#create-message-form-container'),
-                url: "{{ path("preview_message_draft") }}",
+                url: "{{ path("app_messages_previewdraft") }}",
                 messages: {
                     preview: "{{ "js.preview"|trans }}",
                     too_large: "{{ "js.too_large"|trans }}"

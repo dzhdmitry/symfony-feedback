@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Util\StringHelper;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,8 +22,8 @@ class RemovePreviewsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $rootDir = $container->getParameter("kernel.root_dir");
-        $previewsDir = $rootDir . "/../web/previews";
+        $rootDir = $container->getParameter('kernel.root_dir');
+        $previewsDir = $rootDir . '/../web/previews';
         $dir = dir($previewsDir);
         $now = new \DateTime();
         $deleted = 0;
@@ -31,7 +32,7 @@ class RemovePreviewsCommand extends ContainerAwareCommand
             $filePath = $previewsDir."/".$entry;
             $mimeType = mime_content_type($filePath);
 
-            if (!self::startsWith($mimeType, "image") || !is_writable($filePath)) {
+            if (!StringHelper::startsWith($mimeType, "image") || !is_writable($filePath)) {
                 continue;
             }
 
@@ -46,16 +47,6 @@ class RemovePreviewsCommand extends ContainerAwareCommand
         }
 
         $dir->close();
-        $output->writeln(sprintf("%d file has been deleted", $deleted));
-    }
-
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     */
-    protected static function startsWith($haystack, $needle)
-    {
-        return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== false;
+        $output->writeln(sprintf('%d file has been deleted', $deleted));
     }
 }

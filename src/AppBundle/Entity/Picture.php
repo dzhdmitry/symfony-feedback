@@ -2,12 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Util\StringHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Table(name="picture", indexes={@ORM\Index(name="slug_idx", columns={"slug"})})
+ * @ORM\Table(indexes={@ORM\Index(name="slug_idx", columns={"slug"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @UniqueEntity(fields={"slug"})
@@ -15,29 +16,29 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Picture
 {
     /**
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(name="slug", type="string", unique=true)
+     * @ORM\Column(type="string", unique=true)
      */
     private $slug;
 
     /**
-     * @ORM\Column(name="originalFilename", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $originalFilename;
 
     /**
-     * @ORM\Column(name="path", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $path;
 
     /**
-     * @ORM\Column(name="filename", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $filename;
 
@@ -49,29 +50,10 @@ class Picture
 
     public function __construct()
     {
-        $this->slug = $this->generateUniqueRandomString();
+        $this->slug = StringHelper::uniqueRandomString();
     }
 
     /**
-     * @param int $length
-     * @return string
-     */
-    public function generateUniqueRandomString($length = 10)
-    {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $charactersLength = strlen($characters);
-        $string = "";
-
-        for ($i = 0; $i < $length; $i++) {
-            $string .= $characters[random_int(0, $charactersLength - 1)];
-        }
-
-        return $string;
-    }
-
-    /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -80,8 +62,6 @@ class Picture
     }
 
     /**
-     * Set slug
-     *
      * @param string $slug
      * @return Picture
      */
@@ -93,8 +73,6 @@ class Picture
     }
 
     /**
-     * Get slug
-     *
      * @return string
      */
     public function getSlug()
@@ -103,8 +81,6 @@ class Picture
     }
 
     /**
-     * Set originalFilename
-     *
      * @param UploadedFile|string $originalFilename
      * @return Picture
      */
@@ -116,8 +92,6 @@ class Picture
     }
 
     /**
-     * Get originalFilename
-     *
      * @return UploadedFile|string
      */
     public function getOriginalFilename()
@@ -126,8 +100,6 @@ class Picture
     }
 
     /**
-     * Set path
-     *
      * @param string $path
      * @return Picture
      */
@@ -139,8 +111,6 @@ class Picture
     }
 
     /**
-     * Get path
-     *
      * @return string
      */
     public function getPath()
@@ -149,8 +119,6 @@ class Picture
     }
 
     /**
-     * Set filename
-     *
      * @param string $filename
      * @return Picture
      */
@@ -162,8 +130,6 @@ class Picture
     }
 
     /**
-     * Get filename
-     *
      * @return string
      */
     public function getFilename()
@@ -172,8 +138,6 @@ class Picture
     }
 
     /**
-     * Set message
-     *
      * @param Message $message
      * @return Picture
      */
@@ -185,8 +149,6 @@ class Picture
     }
 
     /**
-     * Get message
-     *
      * @return Message
      */
     public function getMessage()

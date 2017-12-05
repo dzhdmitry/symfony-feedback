@@ -28,7 +28,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         $admin->setEmail('admin@example.org');
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setEnabled(true);
-        $admin->setPlainPassword("123");
+        $admin->setPlainPassword('123');
 
         $this->container->get('fos_user.user_manager')->updateUser($admin);
     }

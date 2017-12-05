@@ -33,34 +33,38 @@ class MessageManager
 
     /**
      * @param Message $message
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function create(Message $message)
     {
         $this->pictureHandler->upload($message);
-        $this->save($message);
+        $this->em->persist($message);
+        $this->em->flush();
     }
 
     /**
      * @param Message $message
      * @param array $data
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(Message $message, $data = [])
     {
-        if ($this->userIsAdmin() && self::hasChanged($message, $data)) {
+        if ($this->changedByAdmin($message, $data)) {
             $message->setChangedByAdmin(true);
         }
 
-        $this->save($message);
+        $this->em->flush();
     }
 
     /**
      * @param Message $message
      * @param $approved
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function setApproved(Message $message, $approved)
     {
         $message->setApproved($approved);
-        $this->save($message);
+        $this->em->flush();
     }
 
     /**
@@ -68,42 +72,25 @@ class MessageManager
      * @param array $data
      * @return bool
      */
-    protected static function hasChanged(Message $message, $data = [])
+    private function changedByAdmin(Message $message, $data = [])
     {
-        $changed = false;
-
-        if (array_key_exists("body", $data)) {
-            if ($data["body"] !== $message->getBody()) {
-                $changed = true;
-            }
+        if (array_key_exists('body', $data)) {
+            return false;
         }
 
-        return $changed;
-    }
+        if ($data['body'] === $message->getBody()) {
+            return false;
+        }
 
-    /**
-     * @return bool
-     */
-    protected function userIsAdmin()
-    {
         if ($token = $this->storage->getToken()) {
             if ($user = $token->getUser()) {
                 /** @var $user User */
-                if ($user->hasRole("ROLE_ADMIN")) {
+                if ($user->hasRole('ROLE_ADMIN')) {
                     return true;
                 }
             }
         }
 
         return false;
-    }
-
-    /**
-     * @param $message
-     */
-    protected function save($message)
-    {
-        $this->em->persist($message);
-        $this->em->flush();
     }
 }

@@ -22,17 +22,17 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <a class="navbar-brand" href="{{ path("homepage") }}" title="{{ "pages.home.go"|trans }}">Feedback</a>
+                        <a class="navbar-brand" href="{{ path("app_default_index") }}" title="{{ "pages.home.go"|trans }}">Feedback</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="navbar-main">
                         <ul class="nav navbar-nav navbar-left">
                             <li{% if app.request.locale == "en" %} class="active"{% endif %}>
-                                <a href="{{ path("setLocale", {_locale: "en"}) }}" title="Switch to english">EN</a>
+                                <a href="{{ path("app_default_setlocale", {_locale: "en"}) }}" title="Switch to english">EN</a>
                             </li>
 
                             <li{% if app.request.locale == "ru" %} class="active"{% endif %}>
-                                <a href="{{ path("setLocale", {_locale: "ru"}) }}" title="Switch to russian">RU</a>
+                                <a href="{{ path("app_default_setlocale", {_locale: "ru"}) }}" title="Switch to russian">RU</a>
                             </li>
                         </ul>
 
@@ -44,7 +44,7 @@
 
                                 {% if is_granted("ROLE_ADMIN") %}
                                     <li>
-                                        <a href="{{ path("admin") }}">
+                                        <a href="{{ path("app_admin_index") }}">
                                             {{- "pages.admin"|trans -}}
                                         </a>
                                     </li>

@@ -24,17 +24,18 @@ class PictureHandler
 
     /**
      * @param Picture $picture
+     * @throws PictureHandlerException
      */
     public function resize(Picture $picture)
     {
         $path = $picture->getAbsolutePath();
 
         if (!is_file($path)) {
-            self::throwPictureHandlerException("File '%s' does not exist", $path);
+            throw PictureHandlerException::create('File "%s" does not exist', $path);
         }
 
         if (!is_writable($picture->getAbsolutePath())) {
-            self::throwPictureHandlerException("File '%s' is not writable", $path);
+            throw PictureHandlerException::create('File "%s" is not writable', $path);
         }
 
         $img = new \Imagick($path);
@@ -74,6 +75,7 @@ class PictureHandler
 
     /**
      * @param Message $message
+     * @throws PictureHandlerException
      */
     public function upload(Message $message)
     {
@@ -84,12 +86,12 @@ class PictureHandler
         }
 
         if (!is_writable($this->directory)) {
-            self::throwPictureHandlerException("Directory '%s' is not writable", $this->directory);
+            throw PictureHandlerException::create('Directory "%s" is not writable', $this->directory);
         }
 
         /** @var UploadedFile $file */
         $file = $picture->getOriginalFilename();
-        $fileName = sprintf("%s.%s", $picture->getSlug(), $file->guessExtension());
+        $fileName = sprintf('%s.%s', $picture->getSlug(), $file->guessExtension());
 
         $file->move($this->directory, $fileName);
 
@@ -98,15 +100,5 @@ class PictureHandler
         $picture->setPath($this->folder);
 
         $this->resize($picture);
-    }
-
-    /**
-     * @param $text
-     * @param $path
-     * @throws PictureHandlerException
-     */
-    protected static function throwPictureHandlerException($text, $path)
-    {
-        throw new PictureHandlerException(sprintf($text, $path));
     }
 }

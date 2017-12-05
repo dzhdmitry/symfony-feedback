@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Message;
 use AppBundle\Form\MessageEditType;
 use AppBundle\Form\MessageCreateType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,16 +19,17 @@ class MessagesController extends Controller
 {
     /**
      * @Template
-     * @Route("", name="create_message")
-     * @Method("POST")
+     * @Route("", methods={"POST"})
+     *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function createAction(Request $request)
     {
         $message = new Message();
         $form = $this->createForm(MessageCreateType::class, $message, [
-            'action' => $this->generateUrl("create_message")
+            'action' => $this->generateUrl("app_messages_create")
         ]);
 
         $form->handleRequest($request);
@@ -38,7 +38,7 @@ class MessagesController extends Controller
             $this->get("app.message_manager")->create($message);
             $this->addFlash("success", "message.created");
 
-            return $this->redirectToRoute("homepage");
+            return $this->redirectToRoute("app_default_index");
         } else {
             return [
                 'form' => $form->createView()
@@ -47,15 +47,17 @@ class MessagesController extends Controller
     }
 
     /**
-     * @Route("/preview", name="preview_message_draft")
+     * @Route("/preview")
+     *
      * @param Request $request
      * @return JsonResponse
+     * @throws \AppBundle\Exception\PictureHandlerException
      */
     public function previewDraftAction(Request $request)
     {
         $message = new Message();
         $form = $this->createForm(MessageCreateType::class, $message, [
-            'action' => $this->generateUrl("create_message")
+            'action' => $this->generateUrl("app_messages_create")
         ]);
 
         $form->handleRequest($request);
@@ -83,17 +85,18 @@ class MessagesController extends Controller
     /**
      * @Template
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/{id}", name="edit_message")
+     * @Route("/{id}")
+     *
      * @param Request $request
-     * @param $id
+     * @param Message $message
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|array
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, Message $message)
     {
-        $message = $this->findMessage($id);
         $form = $this->createForm(MessageEditType::class, $message, [
-            'action' => $this->generateUrl("edit_message", [
-                'id' => $id
+            'action' => $this->generateUrl("app_messages_edit", [
+                'id' => $message->getId()
             ])
         ]);
 
@@ -112,7 +115,7 @@ class MessagesController extends Controller
             if ($form->isValid()) {
                 $this->get("app.message_manager")->update($message, $data);
 
-                return $this->redirectToRoute("admin");
+                return $this->redirectToRoute("app_admin_index");
             } else {
                 return [
                     'message' => $message,
@@ -124,17 +127,17 @@ class MessagesController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/{id}/preview", name="preview_message")
+     * @Route("/{id}/preview")
+     *
      * @param Request $request
-     * @param $id
+     * @param Message $message
      * @return JsonResponse
      */
-    public function previewAction(Request $request, $id)
+    public function previewAction(Request $request, Message $message)
     {
-        $message = $this->findMessage($id);
         $form = $this->createForm(MessageEditType::class, $message, [
-            'action' => $this->generateUrl("edit_message", [
-                'id' => $id
+            'action' => $this->generateUrl("app_messages_edit", [
+                'id' => $message->getId()
             ])
         ]);
 
@@ -160,48 +163,31 @@ class MessagesController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/{id}/approve", name="approve_message")
-     * @Method("PUT")
-     * @param $id
+     * @Route("/{id}/approve", methods={"PUT"})
+     *
+     * @param Message $message
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function approveAction($id)
+    public function approveAction(Message $message)
     {
-        $message = $this->findMessage($id);
-
         $this->get("app.message_manager")->setApproved($message, true);
 
-        return $this->redirectToRoute("admin");
+        return $this->redirectToRoute("app_admin_index");
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/{id}/disapprove", name="disapprove_message")
-     * @Method("PUT")
-     * @param $id
+     * @Route("/{id}/disapprove", methods={"PUT"})
+     *
+     * @param Message $message
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function disapproveAction($id)
+    public function disapproveAction(Message $message)
     {
-        $message = $this->findMessage($id);
-
         $this->get("app.message_manager")->setApproved($message, false);
 
-        return $this->redirectToRoute("admin");
-    }
-
-    /**
-     * @param $id
-     * @return Message
-     */
-    protected function findMessage($id)
-    {
-        if ($message = $this->getDoctrine()->getRepository(Message::class)->find($id)) {
-            return $message;
-        } else {
-            $errorMessage = $this->get("translator")->trans("message.not_found");
-
-            throw $this->createNotFoundException($errorMessage);
-        }
+        return $this->redirectToRoute("app_admin_index");
     }
 }

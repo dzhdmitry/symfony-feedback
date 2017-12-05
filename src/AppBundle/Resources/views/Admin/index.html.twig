@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% set currentRoute = app.request.attributes.get('_route') %}
-{% set nextDirection = (p.direction == "asc") ? "desc" : "asc" %}
+{% set nextDirection = (criteria.direction == "asc") ? "desc" : "asc" %}
 
 {% block title -%}
-    {%- if currentRoute == "admin_approved" -%}
+    {%- if currentRoute == "app_admin_approved" -%}
         {{ "admin.approved"|trans }} &ndash;
-    {%- elseif currentRoute == "admin_disapproved" -%}
+    {%- elseif currentRoute == "app_admin_disapproved" -%}
         {{ "admin.disapproved"|trans }} &ndash;
     {%- endif %}
 
@@ -16,24 +16,24 @@
 {% block body %}
     {% spaceless %}
     <ul class="nav nav-pills messages-navigation">
-        <li role="presentation"{% if currentRoute == "admin" %} class="active"{% endif %}>
-            <a href="{{ path("admin") }}">
+        <li role="presentation"{% if currentRoute == "app_admin_index" %} class="active"{% endif %}>
+            <a href="{{ path("app_admin_index") }}">
                 <span class="pill-caption">{{ "admin.all"|trans }}</span>
-                <span class="badge">{{ count.all }}</span>
+                <span class="badge">{{ amount.all }}</span>
             </a>
         </li>
 
-        <li role="presentation"{% if currentRoute == "admin_approved" %} class="active"{% endif %}>
-            <a href="{{ path("admin_approved") }}">
+        <li role="presentation"{% if currentRoute == "app_admin_approved" %} class="active"{% endif %}>
+            <a href="{{ path("app_admin_approved") }}">
                 <span class="pill-caption">{{ "admin.approved"|trans }}</span>
-                <span class="badge">{{ count.approved }}</span>
+                <span class="badge">{{ amount.approved }}</span>
             </a>
         </li>
 
-        <li role="presentation"{% if currentRoute == "admin_disapproved" %} class="active"{% endif %}>
-            <a href="{{ path("admin_disapproved") }}">
+        <li role="presentation"{% if currentRoute == "app_admin_disapproved" %} class="active"{% endif %}>
+            <a href="{{ path("app_admin_disapproved") }}">
                 <span class="pill-caption">{{ "admin.disapproved"|trans }}</span>
-                <span class="badge">{{ count.disapproved }}</span>
+                <span class="badge">{{ amount.disapproved }}</span>
             </a>
         </li>
     </ul>
@@ -42,24 +42,24 @@
         <thead>
         <tr>
             <th>
-                {% if p.sort == "author" %}
-                    <a class="{{ p.direction }}" href="{{ path(currentRoute, {sort: "author", direction: nextDirection}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                {% if criteria.sort == "author" %}
+                    <a class="{{ criteria.direction }}" href="{{ path(currentRoute, {sort: "author", direction: nextDirection}) }}" title="{{ "messages.sort_by_author"|trans }}">
                         {{- "list.author"|trans -}}
                     </a>
                 {% else %}
-                    <a href="{{ path(currentRoute, {sort: "author", direction: p.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
+                    <a href="{{ path(currentRoute, {sort: "author", direction: criteria.direction}) }}" title="{{ "messages.sort_by_author"|trans }}">
                         {{- "list.author"|trans -}}
                     </a>
                 {% endif %}
             </th>
 
             <th>
-                {% if p.sort == "email" %}
-                    <a class="{{ p.direction }}" href="{{ path(currentRoute, {sort: "email", direction: nextDirection}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                {% if criteria.sort == "email" %}
+                    <a class="{{ criteria.direction }}" href="{{ path(currentRoute, {sort: "email", direction: nextDirection}) }}" title="{{ "messages.sort_by_email"|trans }}">
                         {{- "list.email"|trans -}}
                     </a>
                 {% else %}
-                    <a href="{{ path(currentRoute, {sort: "email", direction: p.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
+                    <a href="{{ path(currentRoute, {sort: "email", direction: criteria.direction}) }}" title="{{ "messages.sort_by_email"|trans }}">
                         {{- "list.email"|trans -}}
                     </a>
                 {% endif %}
@@ -70,12 +70,12 @@
             </th>
 
             <th>
-                {% if p.sort == "createdAt" %}
-                    <a class="{{ p.direction }}" href="{{ path(currentRoute, {sort: "createdAt", direction: nextDirection}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                {% if criteria.sort == "createdAt" %}
+                    <a class="{{ criteria.direction }}" href="{{ path(currentRoute, {sort: "createdAt", direction: nextDirection}) }}" title="{{ "messages.sort_by_date"|trans }}">
                         {{- "list.createdAt"|trans -}}
                     </a>
                 {% else %}
-                    <a href="{{ path(currentRoute, {sort: "createdAt", direction: p.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
+                    <a href="{{ path(currentRoute, {sort: "createdAt", direction: criteria.direction}) }}" title="{{ "messages.sort_by_date"|trans }}">
                         {{- "list.createdAt"|trans -}}
                     </a>
                 {% endif %}
@@ -139,7 +139,7 @@
 
                 <td class="text-right column-actions">
                     <div class="btn-group btn-group-sm" role="group">
-                        <a href="{{ path("edit_message", {id: message.id}) }}" class="btn btn-default" title="{{ "admin.action.edit.title"|trans }}">
+                        <a href="{{ path("app_messages_edit", {id: message.id}) }}" class="btn btn-default" title="{{ "admin.action.edit.title"|trans }}">
                             {{- "admin.action.edit"|trans -}}
                         </a>
 
@@ -151,7 +151,7 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
                                     {% if message.isApproved %}
-                                        <form action="{{ path("disapprove_message", {id: message.id}) }}" method="post">
+                                        <form action="{{ path("app_messages_disapprove", {id: message.id}) }}" method="post">
                                             <input type="hidden" name="_method" value="PUT">
 
                                             <button type="submit" class="dropdown-submit" title="{{ "admin.action.disapprove.title"|trans }}">
@@ -159,7 +159,7 @@
                                             </button>
                                         </form>
                                     {% else %}
-                                        <form action="{{ path("approve_message", {id: message.id}) }}" method="post">
+                                        <form action="{{ path("app_messages_approve", {id: message.id}) }}" method="post">
                                             <input type="hidden" name="_method" value="PUT">
 
                                             <button type="submit" class="dropdown-submit" title="{{ "admin.action.approve.title"|trans }}">

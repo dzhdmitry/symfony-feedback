@@ -3,20 +3,23 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Message;
+use AppBundle\Util\MessagesCriteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @Security("has_role('ROLE_ADMIN')")
  * @Route("/admin")
  */
-class AdminController extends BaseController
+class AdminController extends Controller
 {
     /**
      * @Template
-     * @Route("", name="admin")
+     * @Route("")
+     *
      * @param Request $request
      * @return array
      */
@@ -27,48 +30,45 @@ class AdminController extends BaseController
 
     /**
      * @Template("@App/Admin/index.html.twig")
-     * @Route("/approved", name="admin_approved")
+     * @Route("/approved")
+     *
      * @param Request $request
      * @return array
      */
     public function approvedAction(Request $request)
     {
-        return $this->response($request, true);
+        return $this->response($request, MessagesCriteria::FILTER_APPROVED);
     }
 
     /**
      * @Template("@App/Admin/index.html.twig")
-     * @Route("/disapproved", name="admin_disapproved")
+     * @Route("/disapproved")
+     *
      * @param Request $request
      * @return array
      */
     public function disapprovedAction(Request $request)
     {
-        return $this->response($request, false);
+        return $this->response($request, MessagesCriteria::FILTER_DISAPPROVED);
     }
 
     /**
      * @param Request $request
-     * @param bool|null $approved
+     * @param string $approved
      * @return array
      */
-    protected function response(Request $request, $approved = null)
+    protected function response(Request $request, $approved = MessagesCriteria::FILTER_ALL)
     {
-        $sort = self::getSort($request);
-        $order = self::getOrder($request);
+        $criteria = MessagesCriteria::fromRequest($request)->setApproved($approved);
         $repo = $this->getDoctrine()->getRepository(Message::class);
-        $messages = $repo->findMessages($sort, $order, $approved);
 
         return [
-            'messages' => $messages,
-            'count' => [
+            'messages' => $repo->findMessages($criteria),
+            'criteria' => $criteria,
+            'amount' => [
                 'all' => $repo->countMessages(),
-                'approved' => $repo->countMessages(true),
-                'disapproved' => $repo->countMessages(false),
-            ],
-            'p' => [
-                'sort' => $sort,
-                'direction' => $order
+                'approved' => $repo->countMessages(MessagesCriteria::FILTER_APPROVED),
+                'disapproved' => $repo->countMessages(MessagesCriteria::FILTER_DISAPPROVED),
             ]
         ];
     }

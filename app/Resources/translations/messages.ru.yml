@@ -34,7 +34,7 @@ messages:
   sort_by_date:     Сортировать по дате добавления
 
   sorted_by_author: Отсортировано по имени автора
-  sorted_by_email:  Отсортировано по email
+  sorted_by_email:  Отсортировано по e-mail
   sorted_by_date:   Отсортировано по дате добавления
 
   order_by_asc:     Упорядочить по возрастанию

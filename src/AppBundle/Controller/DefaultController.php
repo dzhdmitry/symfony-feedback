@@ -4,40 +4,38 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Message;
 use AppBundle\Form\MessageCreateType;
+use AppBundle\Util\MessagesCriteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends BaseController
+class DefaultController extends Controller
 {
     /**
      * @Template
-     * @Route("/", name="homepage")
+     * @Route("/")
      * @param Request $request
      * @return array
      */
     public function indexAction(Request $request)
     {
-        $sort = self::getSort($request);
-        $order = self::getOrder($request);
-        $messages = $this->getDoctrine()->getRepository(Message::class)->findMessages($sort, $order, true);
+        $criteria = MessagesCriteria::fromRequest($request)->setApproved(MessagesCriteria::FILTER_APPROVED);
+        $messages = $this->getDoctrine()->getRepository(Message::class)->findMessages($criteria);
         $message = new Message();
         $form = $this->createForm(MessageCreateType::class, $message, [
-            'action' => $this->generateUrl("create_message")
+            'action' => $this->generateUrl('app_messages_create')
         ]);
 
         return [
             'messages' => $messages,
-            'p' => [
-                'sort' => $sort,
-                'direction' => $order
-            ],
+            'criteria' => $criteria,
             'messageForm' => $form->createView()
         ];
     }
 
     /**
-     * @Route("/locale/{_locale}", name="setLocale", defaults={"_locale": "en"})
+     * @Route("/locale/{_locale}", defaults={"_locale": "en"})
      * @param Request $request
      * @param $_locale
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

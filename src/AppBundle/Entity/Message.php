@@ -7,49 +7,49 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="message")
+ * @ORM\Table
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MessageRepository")
  */
 class Message
 {
     /**
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(name="author", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="message.author")
      */
     private $author;
 
     /**
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="message.email")
      * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(name="body", type="text")
+     * @ORM\Column(type="text")
      * @Assert\NotBlank(message="message.body")
      */
     private $body;
 
     /**
-     * @ORM\Column(name="approved", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $approved;
 
     /**
-     * @ORM\Column(name="changed_by_admin", type="boolean")
+     * @ORM\Column(type="boolean")
      */
     private $changedByAdmin;
 
     /**
-     * @ORM\Column(name="createdAt", type="datetime")
+     * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
@@ -66,8 +66,6 @@ class Message
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -76,8 +74,6 @@ class Message
     }
 
     /**
-     * Set author
-     *
      * @param string $author
      * @return $this
      */
@@ -89,8 +85,6 @@ class Message
     }
 
     /**
-     * Get author
-     *
      * @return string
      */
     public function getAuthor()
@@ -99,8 +93,6 @@ class Message
     }
 
     /**
-     * Set email
-     *
      * @param string $email
      * @return $this
      */
@@ -112,8 +104,6 @@ class Message
     }
 
     /**
-     * Get email
-     *
      * @return string
      */
     public function getEmail()
@@ -122,8 +112,6 @@ class Message
     }
 
     /**
-     * Set body
-     *
      * @param string $body
      * @return $this
      */
@@ -135,8 +123,6 @@ class Message
     }
 
     /**
-     * Get body
-     *
      * @return string
      */
     public function getBody()
@@ -145,8 +131,6 @@ class Message
     }
 
     /**
-     * Set approved
-     *
      * @param boolean $approved
      * @return $this
      */
@@ -158,8 +142,6 @@ class Message
     }
 
     /**
-     * Get approved
-     *
      * @return bool
      */
     public function isApproved()
@@ -168,8 +150,6 @@ class Message
     }
 
     /**
-     * Set changedByAdmin
-     *
      * @param boolean $changedByAdmin
      * @return $this
      */
@@ -181,8 +161,6 @@ class Message
     }
 
     /**
-     * Get changedByAdmin
-     *
      * @return bool
      */
     public function isChangedByAdmin()
@@ -191,8 +169,6 @@ class Message
     }
 
     /**
-     * Set createdAt
-     *
      * @param \DateTime $createdAt
      * @return $this
      */
@@ -204,8 +180,6 @@ class Message
     }
 
     /**
-     * Get createdAt
-     *
      * @return \DateTime
      */
     public function getCreatedAt()
@@ -214,8 +188,6 @@ class Message
     }
 
     /**
-     * Set picture
-     *
      * @param Picture $picture
      * @return Message
      */
@@ -229,8 +201,6 @@ class Message
     }
 
     /**
-     * Get picture
-     *
      * @return Picture
      */
     public function getPicture()

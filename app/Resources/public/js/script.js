@@ -32,7 +32,7 @@
      * @returns {jQuery}
      */
     $.fn.imagePreview = function(options) {
-        if (window.FileReader == undefined) {
+        if (window.FileReader === undefined) {
             return this;
         }
 
@@ -82,7 +82,7 @@ var MessageForm = Backbone.View.extend({
             $form = $btn.closest('form'),
             form = $form.get(0);
 
-        if (form.checkValidity != undefined && !form.checkValidity()) {
+        if (form.checkValidity !== undefined && !form.checkValidity()) {
             $form.find(':submit').eq(0).click();
 
             return;
@@ -105,7 +105,7 @@ var MessageForm = Backbone.View.extend({
                 self.$el.html(data.html);
             }
         }).fail(function(jqXHR) {
-            var message = (jqXHR.status == STATUS_REQUEST_ENTITY_TOO_LARGE) ? self.messages.too_large : self.messages.preview;
+            var message = (jqXHR.status === STATUS_REQUEST_ENTITY_TOO_LARGE) ? self.messages.too_large : self.messages.preview;
 
             $.notify({
                 message: message

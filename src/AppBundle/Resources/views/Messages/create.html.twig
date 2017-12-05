@@ -17,7 +17,7 @@
         $(function() {
             var form = new MessageForm({
                 el: $('#create-message-form-container'),
-                url: "{{ path("preview_message_draft") }}",
+                url: "{{ path("app_messages_previewdraft") }}",
                 messages: {
                     preview: "{{ "js.preview"|trans }}",
                     too_large: "{{ "js.too_large"|trans }}"
